@@ -1,0 +1,11 @@
+http://demo.owasp-juice.shop/socket.io/?EIO=FUZZ&transport=FUZZ&t=FUZZ&sid=FUZZ
+https://demo.owasp-juice.shop/sitemap.xml/socket.io/?EIO=FUZZ&transport=FUZZ&t=FUZZ
+https://demo.owasp-juice.shop/?source=FUZZ
+https://demo.owasp-juice.shop/api/Challenges/?name=FUZZ
+https://demo.owasp-juice.shop/%23/hacking-instructor?challenge=FUZZ
+http://demo.owasp-juice.shop/socket.io/?EIO=FUZZ&transport=FUZZ&t=FUZZ
+https://demo.owasp-juice.shop/redirect?to=FUZZ
+https://demo.owasp-juice.shop/socket.io/?EIO=FUZZ&transport=FUZZ&t=FUZZ&sid=FUZZ
+https://demo.owasp-juice.shop/rest/user/security-question?email=FUZZ
+http://demo.owasp-juice.shop/api/Challenges/?sort=FUZZ
+https://demo.owasp-juice.shop/socket.io/?EIO=FUZZ&transport=FUZZ&t=FUZZ
