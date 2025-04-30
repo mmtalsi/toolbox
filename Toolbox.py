@@ -17,6 +17,142 @@ from scan.XSS import test_xss_redirection
 from scan.sqlmc import run_main
 from urllib.parse import urlparse
 
+def generer_rapport(url):
+    """Génère un rapport consolidé des différents scans effectués"""
+    import os
+    import datetime
+    from glob import glob
+    
+    # Créer le dossier reports s'il n'existe pas
+    if not os.path.exists('reports'):
+        os.makedirs('reports')
+    
+    # Nom du fichier de rapport avec timestamp
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    rapport_filename = f"reports/security_report_{timestamp}.txt"
+    
+    # Fonction pour lire le contenu d'un fichier
+    def lire_fichier(chemin):
+        if os.path.exists(chemin):
+            with open(chemin, 'r', encoding='utf-8', errors='ignore') as f:
+                return f.read()
+        return "Aucun résultat trouvé pour ce scan.\n"
+    
+    # Collecter les résultats des différents scans
+    contenu_rapport = []
+    contenu_rapport.append("="*60)
+    contenu_rapport.append(f"       RAPPORT DE SÉCURITÉ - {timestamp}")
+    contenu_rapport.append("="*60)
+    contenu_rapport.append("\n")
+    
+    # 1. Résultats Nikto
+    contenu_rapport.append("=== SCAN NIKTO ===")
+    domain = get_domain(url)
+    fichiers_nikto = glob(f'results/nikto_{domain}.txt')
+    if fichiers_nikto:
+        for fichier in fichiers_nikto:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucun résultat de Nikto trouvé.")
+    contenu_rapport.append("\n")
+    # On suppose que Nikto affiche ses résultats directement dans la console
+    contenu_rapport.append("Les résultats de Nikto sont affichés dans la console lors du scan.")
+    contenu_rapport.append("\n")
+    
+    # 2. Résultats DIRB
+
+    contenu_rapport.append("=== SCAN DIRB ===")
+    fichiers_dirb = glob(f'results/dirb_{domain}.txt')
+    if fichiers_dirb:
+        for fichier in fichiers_dirb:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucun résultat DIRB trouvé.")
+    contenu_rapport.append("\n")
+    
+    # Redirections détectées
+    contenu_rapport.append("=== REDIRECTIONS DETECTÉES ===")
+    fichiers_redir = glob(f'results/redirections_{domain}.txt')
+    if fichiers_redir:
+        for fichier in fichiers_redir:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucune redirection détectée.")
+    contenu_rapport.append("\n")
+
+    # DIRB affiche aussi ses résultats dans la console
+    contenu_rapport.append("Les résultats de DIRB sont affichés dans la console lors du scan.")
+    contenu_rapport.append("\n")
+    
+    # 3. Résultats XSS
+    contenu_rapport.append("=== SCAN XSS ===")
+    fichiers_xss = glob('results/*_result.txt')
+    if fichiers_xss:
+        for fichier in fichiers_xss:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucun résultat de scan XSS trouvé.")
+    contenu_rapport.append("\n")
+    
+    # 4. Résultats SQL Injection
+    contenu_rapport.append("=== SCAN INJECTION SQL ===")
+    fichiers_sql = glob('results/rapport_*.txt')
+    if fichiers_sql:
+        for fichier in fichiers_sql:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucun résultat de scan SQL trouvé.")
+    contenu_rapport.append("\n")
+    
+    # 5. Informations sur les conteneurs Docker
+    contenu_rapport.append("=== CONTENEURS DOCKER ===")
+    try:
+        result = subprocess.run(['docker', 'ps'], capture_output=True, text=True)
+        contenu_rapport.append(result.stdout if result.stdout else "Aucun conteneur en cours d'exécution.")
+    except:
+        contenu_rapport.append("Impossible de récupérer l'état des conteneurs Docker.")
+    contenu_rapport.append("\n")
+    
+    # 6. En-têtes de sécurité + infos serveur
+    contenu_rapport.append("=== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ===")
+    domain = get_domain(url)
+    output_file = f"results/check_server_{domain}.txt"
+    fichiers_check = glob(output_file)
+    if fichiers_check:
+        for fichier in fichiers_check:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucune information de serveur disponible.")
+    contenu_rapport.append("\n")
+    
+# 7. Résultats des ports et services
+    contenu_rapport.append("=== PORTS OUVERTS ET SERVICES ===")
+    domain = get_domain(url)
+    fichiers_ports = glob(f'results/ports_{domain}.txt')
+    if fichiers_ports:
+        for fichier in fichiers_ports:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucun résultat de scan de ports trouvé.")
+    contenu_rapport.append("\n")
+    # Ces informations sont aussi affichées lors du scan initial
+    contenu_rapport.append("Vérifiez les ports ouverts et services dans les résultats du scan initial.")
+    contenu_rapport.append("\n")
+    
+    # Écrire le rapport dans le fichier
+    with open(rapport_filename, 'w', encoding='utf-8') as f:
+        f.write("\n".join(contenu_rapport))
+    
+    print(f"\n[+] Rapport généré avec succès: {rapport_filename}")
+    input("Appuyez sur entrer pour retourner au menu")
+
 def get_domain(url):
     parsed_url = urlparse(url)
     domain = parsed_url.netloc
@@ -48,17 +184,26 @@ def menu(url):
     if choix == "1":
         #scan_vulnerabilities()
         #url = input("\nEntrez l'URL à scanner : ")
-        check_server(url)
-        scan_all_ports(url)
-        run_nikto(url)
+        domain = get_domain(url)
+        check_file = f"results/check_server_{domain}.txt"
+        ports_file = f"results/ports_{domain}.txt"
+        nikto_file = f"results/nikto_{domain}.txt"
+
+        check_server(url, check_file)
+        scan_all_ports(url, ports_file)
+        run_nikto(url, nikto_file)
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "2":
         #url = input("\nEntrez l'URL à scanner : ")
-        run_dirb(url)
-        scan_redirections_with_dirb(url)
+        domain = get_domain(url)
+        dirb_file = f"results/dirb_{domain}.txt"
+        redir_file = f"results/redirections_{domain}.txt"
+
+        run_dirb(url, dirb_file)
+        scan_redirections_with_dirb(url, redir_file)
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "3":
         #url = input("Entrez l'URL (domaine) cible (ex: example.com) : ").strip()
         domain=get_domain(url)
@@ -67,27 +212,28 @@ def menu(url):
         scan_XSS(domain)
         test_xss_redirection() 
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "4":
         run_main()
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "5":
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "6":
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "7":
         lancer_conteneur_docker_CVE_2024_38473()
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix == "9":
         tuer_tous_les_conteneurs()
         input("Appuyez sur entrer pour retourner au menu")
-        menu()
+        menu(url)
     elif choix.upper() == "Q":
         print("Script terminé")
+        generer_rapport(url)
         sys.exit()
     else:
         print("Option non valide.")

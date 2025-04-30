@@ -1,0 +1,251 @@
+============================================================
+       RAPPORT DE SÉCURITÉ - 20250429_205340
+============================================================
+
+
+=== SCAN NIKTO ===
+Fichier: results/nikto_testphp.vulnweb.com.txt
+Résultats de Nikto :
+- Nikto v2.5.0
+---------------------------------------------------------------------------
++ Target IP:          44.228.249.3
++ Target Hostname:    testphp.vulnweb.com
++ Target Port:        80
++ Start Time:         2025-04-29 18:13:17 (GMT-4)
+---------------------------------------------------------------------------
++ Server: nginx/1.19.0
++ /: Retrieved x-powered-by header: PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1.
++ /: The anti-clickjacking X-Frame-Options header is not present. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
++ /: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type. See: https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/
++ /clientaccesspolicy.xml contains a full wildcard entry. See: https://docs.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/cc197955(v=vs.95)?redirectedfrom=MSDN
++ /clientaccesspolicy.xml contains 12 lines which should be manually viewed for improper domains or wildcards. See: https://www.acunetix.com/vulnerabilities/web/insecure-clientaccesspolicy-xml-file/
++ /crossdomain.xml contains a full wildcard entry. See: http://jeremiahgrossman.blogspot.com/2008/05/crossdomainxml-invites-cross-site.html
++ Scan terminated: 20 error(s) and 6 item(s) reported on remote host
++ End Time:           2025-04-29 18:14:18 (GMT-4) (61 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+
+Erreurs :
++ ERROR: Error limit (20) reached for host, giving up. Last error: error reading HTTP response
+
+
+
+Les résultats de Nikto sont affichés dans la console lors du scan.
+
+
+=== SCAN DIRB ===
+Fichier: results/dirb_testphp.vulnweb.com.txt
+[FOUND] http://testphp.vulnweb.com/index.php?u=.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/index.php?u=.html -> Status 200
+[FOUND] http://testphp.vulnweb.com/login.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.html -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.html -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.html -> Status 200
+
+Total détecté : 9
+
+
+=== REDIRECTIONS DETECTÉES ===
+Fichier: results/redirections_testphp.vulnweb.com.txt
+[REDIRECTION] + http://testphp.vulnweb.com/CVS (CODE:301|SIZE:169)
+[REDIRECTION] + http://testphp.vulnweb.com/admin (CODE:301|SIZE:169)
+[REDIRECTION] + http://testphp.vulnweb.com/images (CODE:301|SIZE:169)
+[REDIRECTION] + http://testphp.vulnweb.com/secured (CODE:301|SIZE:169)
+
+[+] Scan de redirection terminé.
+
+
+
+Les résultats de DIRB sont affichés dans la console lors du scan.
+
+
+=== SCAN XSS ===
+Fichier: results/testphp.vulnweb.com_result.txt
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infocateg.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/artists.php?artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?p=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=<script>alert(1)</script>&mjqN=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=<script>alert(1)</script>&mjqN=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&LDeO=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&LDeO=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&fYij=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&fYij=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?p=<script>alert(1)</script>&pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?p=<script>alert(1)</script>&pp=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/artists.php?+artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=<script>alert(1)</script>&p=<script>alert(1)</script>&pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=<script>alert(1)</script>&p=<script>alert(1)</script>&pp=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&tdRI=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&tdRI=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&YVeN=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&YVeN=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&uiDo=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&uiDo=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/buy.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&artist=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&artist=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=<script>alert(1)</script>&p=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/showimage.php?file=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/?pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&amp%3Basdf=<script>alert(1)</script>&amp%3Bcat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&amp%3Basdf=<script>alert(1)</script>&amp%3Bcat=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&amp%3Basdf=FUZZ&amp%3Bcat=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&HlhS=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&HlhS=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&DUMM=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=<script>alert(1)</script>&DUMM=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&asdf=<script>alert(1)</script>&cat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&zfdfasdf=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?cat=<script>alert(1)</script>&zfdfasdf=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/showimage.php?file=<script>alert(1)</script>&size=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/showimage.php?file=<script>alert(1)</script>&size=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/listproducts.php?artist=<script>alert(1)</script>&cat=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/rate.php?id=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&otIR=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&otIR=FUZZ
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/hpp/index.php?pp=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&hkNi=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://testphp.vulnweb.com/product.php?pic=<script>alert(1)</script>&hkNi=FUZZ
+
+
+
+
+=== SCAN INJECTION SQL ===
+Aucun résultat de scan SQL trouvé.
+
+
+=== CONTENEURS DOCKER ===
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+
+
+=== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ===
+Fichier: results/check_server_testphp.vulnweb.com.txt
+Serveur Web : nginx/1.19.0
+Propulsé par : PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1
+Support de la compression : gzip
+
+Vérification des en-têtes de sécurité:
+Absence de l'en-tête anti-clickjacking
+Absence de l'en-tête XSS protection
+Absence de l'en-tête MIME-sniffing
+
+
+
+=== PORTS OUVERTS ET SERVICES ===
+Fichier: results/ports_testphp.vulnweb.com.txt
+Ports ouverts trouvés sur 44.228.249.3 : ['80']
+Scanning services on open ports: 80
+Port 80 : http (open)
+
+
+
+Vérifiez les ports ouverts et services dans les résultats du scan initial.
+

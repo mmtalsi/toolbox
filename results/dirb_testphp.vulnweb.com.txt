@@ -1,0 +1,11 @@
+[FOUND] http://testphp.vulnweb.com/index.php?u=.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/index.php?u=.html -> Status 200
+[FOUND] http://testphp.vulnweb.com/login.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.html -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.html -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.php -> Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.html -> Status 200
+
+Total détecté : 9

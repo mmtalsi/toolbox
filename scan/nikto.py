@@ -15,9 +15,10 @@ from bs4 import BeautifulSoup
 found_urls = set()
 seclists_wordlist = "/usr/share/seclists/Discovery/Web-Content/Logins.fuzz.txt"
 
-def scan_redirections_with_dirb(target):
+def scan_redirections_with_dirb(target, output_file=None):
     """Scan uniquement pour trouver les redirections (301/302) via dirb."""
     wordlist = "/usr/share/wordlists/dirb/small.txt"
+    results = []
 
     print(f"\n[+] Lancement du scan de redirections avec DIRB sur {target}...\n")
 
@@ -27,15 +28,26 @@ def scan_redirections_with_dirb(target):
 
         for line in process.stdout:
             if "(CODE:30" in line:
-                print(f"[REDIRECTION] {line.strip()}")
+                line_clean = f"[REDIRECTION] {line.strip()}"
+                print(line_clean)
+                results.append(line_clean)
 
         process.wait()
-        print("\n[+] Scan de redirection terminé.\n")
+        results.append("\n[+] Scan de redirection terminé.\n")
 
     except FileNotFoundError:
-        print("[!] Erreur : DIRB n'est pas installé ou introuvable.")
+        error = "[!] Erreur : DIRB n'est pas installé ou introuvable."
+        print(error)
+        results.append(error)
     except Exception as e:
-        print(f"[!] Erreur pendant le scan de redirection : {e}")
+        error = f"[!] Erreur pendant le scan de redirection : {e}"
+        print(error)
+        results.append(error)
+
+    if output_file:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write("\n".join(results))
+        
 def scan_vulnerabilities():
     print("Analyse des vulnérabilités")
     url = input("\nEntrez l'URL à scanner : ")
@@ -46,20 +58,28 @@ def scan_vulnerabilities():
     run_nikto(url)
     #detect_login_pages()
 
-def check_server(url):
-    print("\nmAnalyse du serveur Web")
+def check_server(url, output_file=None):
+    print("\nAnalyse du serveur Web")
     try:
         response = requests.get(url)
         server = response.headers.get("Server", "Non disponible")
         x_powered_by = response.headers.get("X-Powered-By", "Non disponible")
         content_encoding = response.headers.get("Content-Encoding", "Non supporté")
-        print(f" Serveur Web : {server}")
-        print(f" Propulsé par : {x_powered_by}")
-        print(f"  Support de la compression : {content_encoding}")
-
-        #check_redirection(url)
-        #check_basic_auth(url)
-        check_security_headers(url)
+        
+        results = (
+            f"Serveur Web : {server}\n"
+            f"Propulsé par : {x_powered_by}\n"
+            f"Support de la compression : {content_encoding}\n"
+        )
+        
+        print(results)
+        
+        # Si output_file est spécifié, écrire les résultats dedans
+        if output_file:
+            with open(output_file, "w", encoding="utf-8") as f:
+                f.write(results)
+        
+        check_security_headers(url, output_file)
     except requests.exceptions.RequestException as e:
         print(f"[-] Erreur lors de la requête : {e}")
         sys.exit(1)
@@ -83,45 +103,65 @@ def check_basic_auth(url):
             print("\n [!] Portal d'authentification détecté \n")
             print(line.strip())
 
-def check_security_headers(url):
+def check_security_headers(url, output_file=None):
     headers = {
         "X-Frame-Options": "anti-clickjacking",
         "X-XSS-Protection": "XSS protection",
         "X-Content-Type-Options": "MIME-sniffing"
     }
     print("\nVérification des en-têtes de sécurité\n")
+    
+    security_results = ""
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
         for header, description in headers.items():
             if header not in response.headers:
-                print(f"\nAbsence de l'en-tête {description} :\n")
+                result = f"Absence de l'en-tête {description}\n"
             else:
-                print(f"\nPrésence de l'en-tête {description} : \n")
+                result = f"Présence de l'en-tête {description}\n"
+            print(result)
+            security_results += result
+        
+        # Si output_file est spécifié, ajouter les résultats
+        if output_file:
+            with open(output_file, "a", encoding="utf-8") as f:
+                f.write("\nVérification des en-têtes de sécurité:\n")
+                f.write(security_results)
+                
     except requests.exceptions.RequestException as e:
         print(f"\nErreur lors de la vérification des en-têtes de sécurité :\n")
-
-def run_nikto(target):
+def get_ip_from_url(url):
+    try:
+        parsed_url = urlparse(url)
+        hostname = parsed_url.hostname
+        ip_address = socket.gethostbyname(hostname)
+        return ip_address
+    except Exception as e:
+        return f"Erreur : {e}"
+        
+def run_nikto(target, output_file=None):
     try:
         print(f"\nLancement de Nikto sur {target}...\n")
         command = ["nikto", "-h", target]
         process = subprocess.run(command, text=True, capture_output=True)
-        print("Résultats de Nikto :\n")
-        print(process.stdout)
+        result = "Résultats de Nikto :\n" + process.stdout
         if process.stderr:
-            print("Erreurs :\n", process.stderr)
-    except FileNotFoundError:
-        print("Erreur : Nikto n'est pas installé ou introuvable sur votre système.")
+            result += "\nErreurs :\n" + process.stderr
 
-def scan_all_ports(url):
-    """
-    Scanne rapidement les ports ouverts puis détecte les services.
-    """
+        print(result)
+
+        if output_file:
+            with open(output_file, "w", encoding="utf-8") as f:
+                f.write(result)
+    except FileNotFoundError:
+        print("Erreur : Nikto n'est pas installé ou introuvable.")
+
+def scan_all_ports(url, output_file=None):
     ip = get_ip_from_url(url)
     nm = nmap.PortScanner()
 
     print(f"Scanning all ports quickly on {ip}...")
 
-    # 1ere passe : scan rapide
     nm.scan(hosts=ip, arguments="-p- -T4 --min-rate 500")
     
     if ip not in nm.all_hosts():
@@ -134,34 +174,25 @@ def scan_all_ports(url):
             if nm[ip]['tcp'][port]['state'] == 'open':
                 open_ports.append(str(port))
 
-    print(f"Ports ouverts trouvés : {open_ports}")
+    result = f"Ports ouverts trouvés sur {ip} : {open_ports}\n"
 
     if open_ports:
-        # 2e passe : détection des services sur ports ouverts
         ports_str = ",".join(open_ports)
-        print(f"Scanning services on open ports: {ports_str}")
+        result += f"Scanning services on open ports: {ports_str}\n"
         nm.scan(hosts=ip, ports=ports_str, arguments="-sV -T4")
 
-        services = {}
         for port in nm[ip]['tcp']:
             service = nm[ip]['tcp'][port].get('name', 'Unknown')
             state = nm[ip]['tcp'][port]['state']
-            services[port] = {"state": state, "service": service}
-        
-        print(f"Services détectés: {services}")
-        return services
+            result += f"Port {port} : {service} ({state})\n"
     else:
-        print("Aucun port ouvert détecté.")
-        return {}
+        result += "Aucun port ouvert détecté.\n"
 
-def get_ip_from_url(url):
-    try:
-        parsed_url = urlparse(url)
-        hostname = parsed_url.hostname
-        ip_address = socket.gethostbyname(hostname)
-        return ip_address
-    except Exception as e:
-        return f"Erreur : {e}"
+    print(result)
+    
+    if output_file:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(result)
 
 def is_login_page(url):
     """ Détecte si une page est une page de login """
@@ -186,10 +217,11 @@ def is_login_page(url):
         
         
 
-def run_dirb(target):
+def run_dirb(target, output_file=None):
     """Scan rapide sans afficher les 404"""
     extensions = ['php', 'html']
     found_urls = set()
+    results = []
 
     if not os.path.exists(seclists_wordlist):
         print(f"[!] Wordlist SecLists non trouvée: {seclists_wordlist}")
@@ -209,17 +241,25 @@ def run_dirb(target):
                     if response.status_code != 404:
                         found_urls.add(url)
                         if is_login_page(url):
-                            print(f"[LOGIN PAGE] {url} -> Status {response.status_code}")
+                            line = f"[LOGIN PAGE] {url} -> Status {response.status_code}"
                         else:
-                            print(f"[FOUND] {url} -> Status {response.status_code}")
-                    # else:  # On ne fait plus rien si c'est 404
-                        # print(f"[SKIP] {url} -> 404")  # Ne plus afficher
+                            line = f"[FOUND] {url} -> Status {response.status_code}"
+                        print(line)
+                        results.append(line)
                 except requests.RequestException:
-                    print(f"[SKIP] {url} -> No response")
+                    line = f"[SKIP] {url} -> No response"
+                    print(line)
+                    results.append(line)
 
         print(f"\n[+] Scan terminé. {len(found_urls)} pages détectées.\n")
+        results.append(f"\nTotal détecté : {len(found_urls)}")
     except Exception as e:
-        print(f"[!] Erreur pendant le scan : {e}")
+        results.append(f"[!] Erreur pendant le scan : {e}")
+        print(results[-1])
+
+    if output_file:
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write("\n".join(results))
 
     return found_urls
 
