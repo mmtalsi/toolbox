@@ -1,6 +1,0 @@
-[REDIRECTION] + http://testphp.vulnweb.com/CVS (CODE:301|SIZE:169)
-[REDIRECTION] + http://testphp.vulnweb.com/admin (CODE:301|SIZE:169)
-[REDIRECTION] + http://testphp.vulnweb.com/images (CODE:301|SIZE:169)
-[REDIRECTION] + http://testphp.vulnweb.com/secured (CODE:301|SIZE:169)
-
-[+] Scan de redirection terminé.

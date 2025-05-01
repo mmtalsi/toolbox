@@ -1,6 +1,0 @@
-Serveur Web : nginx/1.19.0
-Propulsé par : PHP/5.6.40-38+ubuntu20.04.1+deb.sury.org+1
-Support de la compression : gzip
-Absence de l'en-tête anti-clickjacking
-Absence de l'en-tête XSS protection
-Absence de l'en-tête MIME-sniffing

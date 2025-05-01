@@ -1,6 +1,7 @@
 
 import subprocess
-
+import os
+import glob
 import sys
 
 from scan.nikto import scan_vulnerabilities
@@ -10,6 +11,8 @@ from scan.nikto import run_nikto
 from scan.nikto import run_dirb
 from scan.nikto import scan_redirections_with_dirb
 from demo.CVE_2024_38473 import lancer_conteneur_docker_CVE_2024_38473
+from demo.CVE_2024_38473 import lancer_conteneur_docker_CVE_2021_41773
+from demo.CVE_2024_38473 import check_cve_2021_41773
 from demo.Destruction import tuer_tous_les_conteneurs
 from scan.XSS import lancer_paramspider
 from scan.XSS import scan_XSS
@@ -172,7 +175,7 @@ def menu(url):
     print("             [3] - Scan et Injection XSS")
     print("             [4] - Scan et Injection SQL")
     print("             [5] - Analyse de la sécurité des mots de passe")
-    print("             [6] - Générer un rapport")
+    print("             [6] - Détection de CVE_2021_41773")
     print("             [7] - Deployer les machines de démo")
     print("             [9] - Destruction\n")
     print("         [Q] - Quitter\n")
@@ -221,10 +224,12 @@ def menu(url):
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "6":
+        check_cve_2021_41773(url)
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "7":
         lancer_conteneur_docker_CVE_2024_38473()
+        lancer_conteneur_docker_CVE_2021_41773("blueteamsteve/cve-2021-41773:no-cgid", "8080:80")
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "9":
@@ -234,6 +239,13 @@ def menu(url):
     elif choix.upper() == "Q":
         print("Script terminé")
         generer_rapport(url)
+        fichiers_a_supprimer = glob.glob('results/*')
+        for fichier in fichiers_a_supprimer:
+            try:
+                os.remove(fichier)
+                print(f"[+] Fichier supprimé : {fichier}")
+            except Exception as e:
+                print(f"[!] Erreur lors de la suppression de {fichier} : {e}")    
         sys.exit()
     else:
         print("Option non valide.")

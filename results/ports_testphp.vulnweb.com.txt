@@ -1,3 +1,0 @@
-Ports ouverts trouvés sur 44.228.249.3 : ['80']
-Scanning services on open ports: 80
-Port 80 : http (open)
