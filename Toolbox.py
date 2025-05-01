@@ -13,6 +13,9 @@ from scan.nikto import scan_redirections_with_dirb
 from demo.CVE_2024_38473 import lancer_conteneur_docker_CVE_2024_38473
 from demo.CVE_2024_38473 import lancer_conteneur_docker_CVE_2021_41773
 from demo.CVE_2024_38473 import check_cve_2021_41773
+from demo.CVE_2024_38473 import check_cve_2024_38473
+from demo.CVE_2024_38473 import get_cves
+from demo.CVE_2024_38473 import display_cve_results
 from demo.Destruction import tuer_tous_les_conteneurs
 from scan.XSS import lancer_paramspider
 from scan.XSS import scan_XSS
@@ -174,9 +177,10 @@ def menu(url):
     print("             [2] - Page d'authentification et de redirection")
     print("             [3] - Scan et Injection XSS")
     print("             [4] - Scan et Injection SQL")
-    print("             [5] - Analyse de la sécurité des mots de passe")
+    print("             [5] - Détection de CVE_2024_38473")
     print("             [6] - Détection de CVE_2021_41773")
     print("             [7] - Deployer les machines de démo")
+    print("             [8] - Infos CVE")
     print("             [9] - Destruction\n")
     print("         [Q] - Quitter\n")
 
@@ -221,6 +225,7 @@ def menu(url):
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "5":
+        check_cve_2024_38473(url)
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "6":
@@ -230,6 +235,18 @@ def menu(url):
     elif choix == "7":
         lancer_conteneur_docker_CVE_2024_38473()
         lancer_conteneur_docker_CVE_2021_41773("blueteamsteve/cve-2021-41773:no-cgid", "8080:80")
+        input("Appuyez sur entrer pour retourner au menu")
+        menu(url)
+    elif choix == "8":
+        # Liste des CVE à rechercher
+        cves = ["CVE-2024-38473", "CVE-2021-41773"]
+    
+        # Récupération en parallèle
+        results = get_cves(cves)
+    
+        # Affichage des résultats
+        display_cve_results(results)
+    
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "9":
