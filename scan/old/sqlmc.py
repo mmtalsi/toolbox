@@ -1,4 +1,4 @@
-import subprocess 
+import subprocess
 import sys
 import tempfile
 import os
@@ -107,30 +107,6 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
     print(Fore.YELLOW + f"    Dossier : {os.path.abspath(dossier_results)}")
     print(Fore.CYAN + "="*60)
 
-    # === MENU DE SÉLECTION D’URL VULNÉRABLE ===
-    url_choisie = None
-    if vulnérables:
-        print(Fore.MAGENTA + "\n[+] Sélectionnez une URL vulnérable à utiliser :")
-        for i, url in enumerate(vulnérables, 1):
-            print(Fore.MAGENTA + f"   {i}. {url}")
-
-        while True:
-            try:
-                choix = int(input(Fore.YELLOW + "[?] Entrez le numéro de l'URL : "))
-                if 1 <= choix <= len(vulnérables):
-                    url_choisie = vulnérables[choix - 1]
-                    print(Fore.GREEN + f"\n[✓] URL sélectionnée : {url_choisie}")
-                    break
-                else:
-                    print(Fore.RED + "[!] Numéro invalide, réessayez.")
-            except ValueError:
-                print(Fore.RED + "[!] Entrée non valide, veuillez entrer un nombre.")
-    else:
-        print(Fore.CYAN + "[i] Pas d’URL vulnérable à sélectionner.")
-
-    # Retour optionnel de la variable choisie si besoin dans d'autres fonctions
-    return url_choisie
-
 def run_main():
     """Fonction principale qui encapsule la logique du programme"""
     afficher_banniere()
@@ -149,12 +125,7 @@ def run_main():
     print(Fore.CYAN + f"\n[~] Lancement du scan (profondeur {profondeur})...")
     try:
         subprocess.run(['sqlmc', '-u', url_cible, '-d', str(profondeur), '-o', fichier_sortie], check=True)
-        url_choisie = analyser_resultats(fichier_sortie, domaine, url_cible, profondeur)
-        # Vous pouvez utiliser url_choisie ici
-        if url_choisie:
-            print(Fore.YELLOW + f"\n[✔] URL vulnérable sélectionnée pour traitement : {url_choisie}")
-        else:
-            print(Fore.YELLOW + "\n[!] Aucune URL vulnérable sélectionnée.")
+        analyser_resultats(fichier_sortie, domaine, url_cible, profondeur)
     except subprocess.CalledProcessError:
         print(Fore.RED + "\n[!] Erreur lors de l'exécution de SQLMC")
     finally:
@@ -163,8 +134,7 @@ def run_main():
                 os.remove(fichier_sortie)
             except:
                 pass
-    return url_choisie
-    
+
 if __name__ == "__main__":
     try:
         run_main()

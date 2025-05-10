@@ -21,6 +21,7 @@ from scan.XSS import lancer_paramspider
 from scan.XSS import scan_XSS
 from scan.XSS import test_xss_redirection
 from scan.sqlmc import run_main
+from scan.sqlmap import sqlmap
 from urllib.parse import urlparse
 
 def generer_rapport(url):
@@ -221,7 +222,12 @@ def menu(url):
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "4":
-        run_main()
+        url_vulnerable = run_main()
+        if url_vulnerable:
+            sqlmap(url_vulnerable)
+        else:
+            print("❌ Aucune URL vulnérable sélectionnée.")
+
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "5":
