@@ -1,0 +1,5 @@
+Bases de données trouvées :
+- acuart
+- information_schema
+
+Base sélectionnée : acuart

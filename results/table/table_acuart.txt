@@ -1,0 +1,11 @@
+Tables de la base de données : acuart
+- artists
+- carts
+- categ
+- featured
+- guestbook
+- pictures
+- products
+- users
+
+Table sélectionnée : users

@@ -1,4 +1,4 @@
-import subprocess 
+import subprocess  
 import sys
 import tempfile
 import os
@@ -61,7 +61,7 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
             current_url = None
 
     dossier_results = preparer_dossier_resultats()
-    nom_rapport = f"rapport_{domaine}.txt"
+    nom_rapport = f"rapport_sqlmc_{domaine}.txt"
     chemin_rapport = os.path.join(dossier_results, nom_rapport)
 
     print(Fore.GREEN + "\n[✔] Résumé des résultats :")
@@ -98,14 +98,14 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
             for url in non_vulnérables:
                 f.write(f"- {url}\n")
         
-        f.write("\n=== LOGS COMPLETS ===\n")
-        f.write("\n".join(lignes))
+        #f.write("\n=== LOGS COMPLETS ===\n")
+        #f.write("\n".join(lignes))
 
-    print(Fore.CYAN + "-"*60)
-    print(Fore.GREEN + f"\n[✓] Rapport enregistré :")
-    print(Fore.YELLOW + f"    Nom : {nom_rapport}")
-    print(Fore.YELLOW + f"    Dossier : {os.path.abspath(dossier_results)}")
-    print(Fore.CYAN + "="*60)
+    #print(Fore.CYAN + "-"*60)
+    #print(Fore.GREEN + f"\n[✓] Rapport enregistré :")
+    #print(Fore.YELLOW + f"    Nom : {nom_rapport}")
+    #print(Fore.YELLOW + f"    Dossier : {os.path.abspath(dossier_results)}")
+    #print(Fore.CYAN + "="*60)
 
     # === MENU DE SÉLECTION D’URL VULNÉRABLE ===
     url_choisie = None
@@ -131,10 +131,10 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
     # Retour optionnel de la variable choisie si besoin dans d'autres fonctions
     return url_choisie
 
-def run_main():
+def run_main(url_cible):
     """Fonction principale qui encapsule la logique du programme"""
     afficher_banniere()
-    url_cible = input(Fore.YELLOW + "[+] URL cible (ex: http://site.com): ").strip()
+    #url_cible = input(Fore.YELLOW + "[+] URL cible (ex: http://site.com): ").strip()
     
     if not url_cible.startswith(('http://', 'https://')):
         print(Fore.RED + "[-] URL doit commencer par http:// ou https://")

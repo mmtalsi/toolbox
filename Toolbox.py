@@ -107,7 +107,7 @@ def generer_rapport(url):
     
     # 4. Résultats SQL Injection
     contenu_rapport.append("=== SCAN INJECTION SQL ===")
-    fichiers_sql = glob('results/rapport_*.txt')
+    fichiers_sql = glob('results/rapport_SQL.txt')
     if fichiers_sql:
         for fichier in fichiers_sql:
             contenu_rapport.append(f"Fichier: {fichier}")
@@ -222,7 +222,7 @@ def menu(url):
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "4":
-        url_vulnerable = run_main()
+        url_vulnerable = run_main(url)
         if url_vulnerable:
             sqlmap(url_vulnerable)
         else:
