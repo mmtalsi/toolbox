@@ -10,6 +10,7 @@ from scan.nikto import scan_all_ports
 from scan.nikto import run_nikto
 from scan.nikto import run_dirb
 from scan.nikto import scan_redirections_with_dirb
+from scan.nikto import reconnaissance_domain
 from demo.CVE_2024_38473 import lancer_conteneur_docker_CVE_2024_38473
 from demo.CVE_2024_38473 import lancer_conteneur_docker_CVE_2021_41773
 from demo.CVE_2024_38473 import check_cve_2021_41773
@@ -89,7 +90,16 @@ def generer_rapport(url):
     else:
         contenu_rapport.append("Aucune redirection détectée.")
     contenu_rapport.append("\n")
-
+    # . Résultats Reconnaissance Domaine
+    contenu_rapport.append("=== SCAN Reconnaissance Domaine ===")
+    fichiers_domaine = glob('result_testphp.vulnweb.com.txt')
+    if fichiers_domaine:
+        for fichier in fichiers_domaine:
+            contenu_rapport.append(f"Fichier: {fichier}")
+            contenu_rapport.append(lire_fichier(fichier))
+    else:
+        contenu_rapport.append("Aucun résultat de scan SQL trouvé.")
+    contenu_rapport.append("\n")
     # DIRB affiche aussi ses résultats dans la console
     contenu_rapport.append("Les résultats de DIRB sont affichés dans la console lors du scan.")
     contenu_rapport.append("\n")
@@ -200,6 +210,7 @@ def menu(url):
         check_server(url, check_file)
         scan_all_ports(url, ports_file)
         run_nikto(url, nikto_file)
+        reconnaissance_domain(url)
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "2":

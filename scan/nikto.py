@@ -10,6 +10,7 @@ from urllib.parse import urljoin, urlparse
 import os
 import json
 from bs4 import BeautifulSoup
+import ipaddress
 
 # Stocke les URLs trouvées
 found_urls = set()
@@ -57,6 +58,7 @@ def scan_vulnerabilities():
     scan_redirections_with_dirb(url)
     run_nikto(url)
     #detect_login_pages()
+    reconnaissance_domain(target_domain)
 
 def check_server(url, output_file=None):
     print("\nAnalyse du serveur Web")
@@ -263,6 +265,89 @@ def run_dirb(target, output_file=None):
 
     return found_urls
 
+def run_command(command, log_file):
+    print(f"\n[+] Running: {command}")
+    try:
+        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        output = strip_ansi(result.stdout)
+        error = strip_ansi(result.stderr)
+
+        if output:
+            print(output)
+            log_file.write(output + '\n')
+
+        if error:
+            print(f"[!] Error:\n{error}")
+            log_file.write(f"\n[!] Error:\n{error}\n")
+
+    except Exception as e:
+        error_msg = f"[!] Exception while running command: {e}"
+        print(error_msg)
+        log_file.write(f"{error_msg}\n")
+
+def strip_ansi(text):
+    ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+    return ansi_escape.sub('', text)
+
+def clean_domain(domain):
+    domain = re.sub(r'^https?://', '', domain)
+    domain = domain.strip('/')
+    domain = domain[4:] if domain.startswith('www.') else domain
+    return domain.lower()
+
+def resolve_ip(domain):
+    try:
+        ip = socket.gethostbyname(domain)
+        print(f"[+] Résolution DNS : {domain} → {ip}")
+        return ip
+    except Exception as e:
+        print(f"[!] Erreur de résolution DNS pour {domain} : {e}")
+        return None
+
+def is_rfc1918(ip):
+    try:
+        ip_obj = ipaddress.ip_address(ip)
+        return ip_obj.is_private
+    except ValueError:
+        return False
+
+def reconnaissance_domain(domain):
+    subs_file = "subs.txt"
+    domain = clean_domain(domain)
+    ip = resolve_ip(domain)
+
+    if ip is None:
+        print("[!] Impossible de résoudre l'IP. Arrêt du script.")
+        sys.exit(1)
+
+    if is_rfc1918(ip):
+        print(f"[!] L'adresse IP résolue ({ip}) est privée (RFC1918). Script interrompu.")
+        sys.exit(1)
+
+    output_file = f"result_{domain}.txt"
+
+    with open(output_file, "w") as log:
+        log.write(f"===== Domain Analysis Report for {domain} ({ip}) =====\n\n")
+
+        log.write("=== [1] Subfinder ===\n")
+        run_command(f"subfinder -d {domain} -o {subs_file}", log)
+
+        log.write(f"\n\n=== [2] Analysis for {domain} ===\n")
+
+        log.write("\n--- WebTech ---\n")
+        run_command(f"webtech -u http://{domain}", log)
+
+        log.write("\n--- WHOIS ---\n")
+        run_command(f"whois {domain}", log)
+
+        log.write("\n--- GeoIPLookup ---\n")
+        run_command(f"geoiplookup {domain}", log)
+
+    if os.path.exists(subs_file):
+        os.remove(subs_file)
+        print(f"\n[+] Deleted {subs_file}")
+
+    print(f"\n✅ Analyse terminée. Résultats enregistrés dans : {output_file}")
 
 if __name__ == "__main__":
     scan_vulnerabilities()
