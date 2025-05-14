@@ -54,7 +54,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # 1. Résultats Nikto
-    contenu_rapport.append("=== SCAN NIKTO ===")
+    contenu_rapport.append("==================== SCAN NIKTO ====================")
     domain = get_domain(url)
     fichiers_nikto = glob(f'results/nikto_{domain}.txt')
     if fichiers_nikto:
@@ -70,7 +70,7 @@ def generer_rapport(url):
     
     # 2. Résultats DIRB
 
-    contenu_rapport.append("=== SCAN DIRB ===")
+    contenu_rapport.append("==================== DETECTE LOGIN PAGE ====================")
     fichiers_dirb = glob(f'results/dirb_{domain}.txt')
     if fichiers_dirb:
         for fichier in fichiers_dirb:
@@ -81,7 +81,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # Redirections détectées
-    contenu_rapport.append("=== REDIRECTIONS DETECTÉES ===")
+    contenu_rapport.append("==================== REDIRECTIONS DETECTÉES ====================")
     fichiers_redir = glob(f'results/redirections_{domain}.txt')
     if fichiers_redir:
         for fichier in fichiers_redir:
@@ -91,7 +91,7 @@ def generer_rapport(url):
         contenu_rapport.append("Aucune redirection détectée.")
     contenu_rapport.append("\n")
     # . Résultats Reconnaissance Domaine
-    contenu_rapport.append("=== SCAN Reconnaissance Domaine ===")
+    contenu_rapport.append("==================== SCAN Reconnaissance Domaine ====================")
     fichiers_domaine = glob('result_testphp.vulnweb.com.txt')
     if fichiers_domaine:
         for fichier in fichiers_domaine:
@@ -105,7 +105,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # 3. Résultats XSS
-    contenu_rapport.append("=== SCAN XSS ===")
+    contenu_rapport.append("==================== SCAN XSS ====================")
     fichiers_xss = glob('results/*_result.txt')
     if fichiers_xss:
         for fichier in fichiers_xss:
@@ -116,7 +116,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # 4. Résultats SQL Injection
-    contenu_rapport.append("=== SCAN INJECTION SQL ===")
+    contenu_rapport.append("==================== SCAN INJECTION SQL ====================")
     fichiers_sql = glob('results/rapport_SQL.txt')
     if fichiers_sql:
         for fichier in fichiers_sql:
@@ -127,7 +127,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # 5. Informations sur les conteneurs Docker
-    contenu_rapport.append("=== CONTENEURS DOCKER ===")
+    contenu_rapport.append("==================== CONTENEURS DOCKER ====================")
     try:
         result = subprocess.run(['docker', 'ps'], capture_output=True, text=True)
         contenu_rapport.append(result.stdout if result.stdout else "Aucun conteneur en cours d'exécution.")
@@ -136,7 +136,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # 6. En-têtes de sécurité + infos serveur
-    contenu_rapport.append("=== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ===")
+    contenu_rapport.append("==================== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ====================")
     domain = get_domain(url)
     output_file = f"results/check_server_{domain}.txt"
     fichiers_check = glob(output_file)
@@ -149,7 +149,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
 # 7. Résultats des ports et services
-    contenu_rapport.append("=== PORTS OUVERTS ET SERVICES ===")
+    contenu_rapport.append("==================== PORTS OUVERTS ET SERVICES ====================")
     domain = get_domain(url)
     fichiers_ports = glob(f'results/ports_{domain}.txt')
     if fichiers_ports:

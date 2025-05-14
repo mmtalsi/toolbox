@@ -18,7 +18,7 @@ www.testphp.vulnweb.com
 [INF] Current subfinder version v2.7.0 (outdated)
 [INF] Loading provider config from /root/.config/subfinder/provider-config.yaml
 [INF] Enumerating subdomains for testphp.vulnweb.com
-[INF] Found 2 subdomains for testphp.vulnweb.com in 5 seconds 862 milliseconds
+[INF] Found 2 subdomains for testphp.vulnweb.com in 5 seconds 870 milliseconds
 
 
 
@@ -27,16 +27,16 @@ www.testphp.vulnweb.com
 --- WebTech ---
 Target URL: http://testphp.vulnweb.com
 Detected technologies:
+	- Ubuntu 
 	- DreamWeaver 
 	- Nginx 1.19.0
-	- Ubuntu 
 	- PHP 5.6.40
 
 
 
 --- WHOIS ---
 No match for "TESTPHP.VULNWEB.COM".
->>> Last update of whois database: 2025-05-11T21:48:22Z <<<
+>>> Last update of whois database: 2025-05-12T18:43:04Z <<<
 
 NOTICE: The expiration date displayed in this record is the date the
 registrar's sponsorship of the domain name registration in the registry is

@@ -81,7 +81,7 @@ def check_cve_2024_38473(base_url: str):
         base_url += '/'
 
     try:
-        with open("demo/wordlists/potential_protected_php_files_10.txt", "r") as f:
+        with open("demonstration/wordlists/potential_protected_php_files_10.txt", "r") as f:
             paths = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         print("Fichier 'potential_protected_php_files_10.txt' introuvable.")

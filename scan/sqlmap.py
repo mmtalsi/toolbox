@@ -94,46 +94,66 @@ def run_sqlmap_dump_table(url, database_name, table_name):
     except subprocess.CalledProcessError as e:
         print(f"❌ Erreur SQLMap (dump) pour '{database_name}.{table_name}' :")
         print(e.stdout or e.stderr)
-
+def encadrer_texte(texte):
+    longueur = len(texte)
+    print("+" + "-" * (longueur + 2) + "+")
+    print("| " + texte + " |")
+    print("+" + "-" * (longueur + 2) + "+")
+    
 def fusionner_rapport_complet(domain, selected_db):
     try:
         rapport_path = f"results/rapport_sqlmc_{domain}.txt"
         database_path = "results/database/database.txt"
         table_path = f"results/table/table_{selected_db}.txt"
         output_path = "results/rapport_SQL.txt"
-
+        titre = "Rapport de scan"
+        bordure = "+" + "-" * (len(titre) + 2) + "+\n"
+        ligne = "| " + titre + " |\n"
+        encadre = bordure + ligne + bordure
+        
         with open(output_path, "w", encoding="utf-8") as fout:
             fout.write("=== RAPPORT SQLMC COMPLET ===\n\n")
 
             # Rapport de scan
             if os.path.exists(rapport_path):
-                fout.write(">>> Rapport de scan :\n")
+                #fout.write(">>> Rapport de scan :\n")
+                fout.write(encadre)
                 with open(rapport_path, "r", encoding="utf-8") as f:
                     fout.write(f.read())
                 fout.write("\n" + "="*60 + "\n\n")
 
+
             # Fichier database
-            fout.write(">>> Bases de données détectées :\n")
+            titre1 = "Bases de données détectées"
+            bordure1 = "+" + "-" * (len(titre1) + 2) + "+\n"
+            ligne1 = "| " + titre1 + " |\n"
+            encadre1 = bordure1 + ligne1 + bordure1
+            #fout.write(">>> Bases de données détectées :\n")
+            fout.write(encadre1)
             with open(database_path, "r", encoding="utf-8") as f:
                 fout.write(f.read())
             fout.write("\n" + "="*60 + "\n\n")
 
             # Fichier table
-            fout.write(">>> Tables extraites :\n")
+            titre2 = "Tables extraites"
+            bordure2 = "+" + "-" * (len(titre2) + 2) + "+\n"
+            ligne2 = "| " + titre2 + " |\n"
+            encadre2 = bordure2 + ligne2 + bordure2
+            #fout.write(">>> Tables extraites :\n")
+            fout.write(encadre2)
             with open(table_path, "r", encoding="utf-8") as f:
                 fout.write(f.read())
             fout.write("\n" + "="*60 + "\n\n")
 
-            # Colonnes
-            fout.write(">>> Colonnes extraites :\n")
-            for col_file in glob(f"results/columns/columns_{selected_db}_*.txt"):
-                fout.write(f"\n-- {os.path.basename(col_file)} --\n")
-                with open(col_file, "r", encoding="utf-8") as f:
-                    fout.write(f.read())
-            fout.write("\n" + "="*60 + "\n\n")
+            
 
             # Dumps
-            fout.write(">>> Dumps extraits :\n")
+            #fout.write(">>> Dumps extraits :\n")
+            titre3 = "Dumps extraits"
+            bordure3 = "+" + "-" * (len(titre3) + 2) + "+\n"
+            ligne3 = "| " + titre3 + " |\n"
+            encadre3 = bordure3 + ligne3 + bordure3
+            fout.write(encadre3)
             for dump_file in glob(f"results/dump/dump_{selected_db}_*.txt"):
                 fout.write(f"\n-- {os.path.basename(dump_file)} --\n")
                 with open(dump_file, "r", encoding="utf-8") as f:

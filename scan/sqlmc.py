@@ -81,7 +81,7 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
             print(Fore.BLUE + f"   {i}. {url}")
 
     with open(chemin_rapport, 'w', encoding='utf-8') as f:
-        f.write(f"=== RAPPORT SQLMC - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')} ===\n\n")
+        #f.write(f"=== RAPPORT SQL - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')} ===\n\n")
         f.write(f"URL cible: {url_cible}\n")
         f.write(f"Profondeur de scan: {profondeur_scan}\n")
         f.write(f"Généré le: {datetime.now().strftime('%d/%m/%Y à %H:%M:%S')}\n\n")
