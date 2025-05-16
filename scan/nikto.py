@@ -324,7 +324,7 @@ def reconnaissance_domain(domain):
         print(f"[!] L'adresse IP résolue ({ip}) est privée (RFC1918). Script interrompu.")
         sys.exit(1)
 
-    output_file = f"result_{domain}.txt"
+    output_file = f"results/result_recon_{domain}.txt"
 
     with open(output_file, "w") as log:
         log.write(f"===== Domain Analysis Report for {domain} ({ip}) =====\n\n")

@@ -92,7 +92,7 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     # . Résultats Reconnaissance Domaine
     contenu_rapport.append("==================== SCAN Reconnaissance Domaine ====================")
-    fichiers_domaine = glob('result_testphp.vulnweb.com.txt')
+    fichiers_domaine = glob(f'results/result_recon_{domain}.txt')
     if fichiers_domaine:
         for fichier in fichiers_domaine:
             contenu_rapport.append(f"Fichier: {fichier}")
@@ -283,7 +283,7 @@ def menu(url):
         sys.exit()
     else:
         print("Option non valide.")
-        menu()
+        menu(url)
 
 if __name__ == "__main__":
     url = input("\nEntrez l'URL à scanner : ")
