@@ -62,7 +62,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucun résultat de Nikto trouvé.")
+        contenu_rapport.append("L'outil Nikto non executé")
     contenu_rapport.append("\n")
     # On suppose que Nikto affiche ses résultats directement dans la console
     contenu_rapport.append("Les résultats de Nikto sont affichés dans la console lors du scan.")
@@ -77,7 +77,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucun résultat DIRB trouvé.")
+        contenu_rapport.append("L'outil DIRB non executé.")
     contenu_rapport.append("\n")
     
     # Redirections détectées
@@ -98,7 +98,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucun résultat de scan SQL trouvé.")
+        contenu_rapport.append("L'outil de scan SQL non executé.")
     contenu_rapport.append("\n")
     # DIRB affiche aussi ses résultats dans la console
     contenu_rapport.append("Les résultats de DIRB sont affichés dans la console lors du scan.")
@@ -112,7 +112,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucun résultat de scan XSS trouvé.")
+        contenu_rapport.append("L'outil de scan XSS non executé.")
     contenu_rapport.append("\n")
     
     # 4. Résultats SQL Injection
@@ -123,7 +123,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucun résultat de scan SQL trouvé.")
+        contenu_rapport.append("L'outil de scan SQL non executé.")
     contenu_rapport.append("\n")
     
     # 5. Informations sur les conteneurs Docker
@@ -145,7 +145,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucune information de serveur disponible.")
+        contenu_rapport.append("Le scan des informations serveur et des en-têtes de sécurité n’a pas été effectué.")
     contenu_rapport.append("\n")
     
 # 7. Résultats des ports et services
@@ -157,7 +157,7 @@ def generer_rapport(url):
             contenu_rapport.append(f"Fichier: {fichier}")
             contenu_rapport.append(lire_fichier(fichier))
     else:
-        contenu_rapport.append("Aucun résultat de scan de ports trouvé.")
+        contenu_rapport.append("Le scan de ports n'a pas été effectué.")
     contenu_rapport.append("\n")
     # Ces informations sont aussi affichées lors du scan initial
     contenu_rapport.append("Vérifiez les ports ouverts et services dans les résultats du scan initial.")

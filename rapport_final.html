@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="fr">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Rapport de Pentest
+  </title>
+  <style>
+   body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .section {
+            background: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+  </style>
+ </head>
+ <body>
+  <h1>
+   Rapport de Test d'Intrusion
+  </h1>
+  <div class="section">
+   <h2>
+    1. Introduction
+   </h2>
+   <p>
+    Rapport de test d'intrusion pour inconnu.local - 18/05/2025
+   </p>
+  </div>
+  <div class="section">
+   <h2>
+    2. Méthodologie
+   </h2>
+   <p>
+    Le test a été réalisé selon la méthodologie OWASP. Il inclut les phases suivantes :
+   </p>
+   <ul>
+    <li>
+     Collecte d'informations
+    </li>
+    <li>
+     Scan de vulnérabilités
+    </li>
+    <li>
+     Exploitation
+    </li>
+    <li>
+     Post-exploitation
+    </li>
+    <li>
+     Rapport
+    </li>
+   </ul>
+  </div>
+  <div class="section">
+   <h2>
+    3. Résumé Exécutif
+   </h2>
+   <p>
+    Outils utilisés: DIRB
+   </p>
+  </div>
+  <div class="section">
+   <h2>
+    4. Vulnérabilités Identifiées
+   </h2>
+   <table>
+    <tr>
+     <th>
+      Nom
+     </th>
+     <th>
+      Gravité
+     </th>
+     <th>
+      Description
+     </th>
+     <th>
+      Recommandation
+     </th>
+    </tr>
+    <tr>
+     <td>
+      Page de login
+     </td>
+     <td>
+      Info
+     </td>
+     <td>
+      [LOGIN PAGE] http://testphp.vulnweb.com/login.php -&gt; Status 200
+     </td>
+     <td>
+      Protection renforcée
+     </td>
+    </tr>
+   </table>
+  </div>
+  <div class="section">
+   <h2>
+    5. Recommandations Générales
+   </h2>
+   <ul>
+    <li>
+     Mettre à jour toutes les bibliothèques logicielles
+    </li>
+    <li>
+     Former les développeurs à la sécurité applicative
+    </li>
+    <li>
+     Configurer un WAF (Web Application Firewall)
+    </li>
+   </ul>
+  </div>
+  <div class="section">
+   <h2>
+    6. Conclusion
+   </h2>
+   <p>
+    Le test démontre que plusieurs vecteurs d'attaque sont exploitables. Une attention urgente est requise pour corriger les failles critiques.
+   </p>
+  </div>
+  <div class="section">
+   <h2>
+    Détails Techniques
+   </h2>
+   <pre>============================================================
+       RAPPORT DE SÉCURITÉ - 20250518_181810
+============================================================
+
+
+==================== SCAN NIKTO ====================
+L'outil Nikto non executé
+
+
+Les résultats de Nikto sont affichés dans la console lors du scan.
+
+
+==================== DETECTE LOGIN PAGE ====================
+Fichier: results/dirb_testphp.vulnweb.com.txt
+[FOUND] http://testphp.vulnweb.com/index.php?u=.php -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/index.php?u=.html -&gt; Status 200
+[LOGIN PAGE] http://testphp.vulnweb.com/login.php -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.php -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.html -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.html -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.php -&gt; Status 200
+[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.html -&gt; Status 200
+
+Total détecté : 9
+
+
+==================== REDIRECTIONS DETECTÉES ====================
+Fichier: results/redirections_testphp.vulnweb.com.txt
+[REDIRECTION] + http://testphp.vulnweb.com/CVS (CODE:301|SIZE:169)
+[REDIRECTION] + http://testphp.vulnweb.com/admin (CODE:301|SIZE:169)
+[REDIRECTION] + http://testphp.vulnweb.com/images (CODE:301|SIZE:169)
+[REDIRECTION] + http://testphp.vulnweb.com/secured (CODE:301|SIZE:169)
+
+[+] Scan de redirection terminé.
+
+
+
+==================== SCAN Reconnaissance Domaine ====================
+L'outil de scan SQL non executé.
+
+
+Les résultats de DIRB sont affichés dans la console lors du scan.
+
+
+==================== SCAN XSS ====================
+L'outil de scan XSS non executé.
+
+
+==================== SCAN INJECTION SQL ====================
+L'outil de scan SQL non executé.
+
+
+==================== CONTENEURS DOCKER ====================
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+
+
+==================== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ====================
+Le scan des informations serveur et des en-têtes de sécurité n’a pas été effectué.
+
+
+==================== PORTS OUVERTS ET SERVICES ====================
+Le scan de ports n'a pas été effectué.
+
+
+Vérifiez les ports ouverts et services dans les résultats du scan initial.
+
+</pre>
+  </div>
+ </body>
+</html>
