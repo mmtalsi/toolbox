@@ -48,7 +48,7 @@
     1. Introduction
    </h2>
    <p>
-    Rapport de test d'intrusion pour inconnu.local - 18/05/2025
+    Rapport de test d'intrusion pour inconnu.local - 19/05/2025
    </p>
   </div>
   <div class="section">
@@ -81,7 +81,7 @@
     3. Résumé Exécutif
    </h2>
    <p>
-    Outils utilisés: DIRB
+    Outils utilisés: Aucun outil exécuté
    </p>
   </div>
   <div class="section">
@@ -102,20 +102,6 @@
      <th>
       Recommandation
      </th>
-    </tr>
-    <tr>
-     <td>
-      Page de login
-     </td>
-     <td>
-      Info
-     </td>
-     <td>
-      [LOGIN PAGE] http://testphp.vulnweb.com/login.php -&gt; Status 200
-     </td>
-     <td>
-      Protection renforcée
-     </td>
     </tr>
    </table>
   </div>
@@ -148,7 +134,7 @@
     Détails Techniques
    </h2>
    <pre>============================================================
-       RAPPORT DE SÉCURITÉ - 20250518_181810
+       RAPPORT DE SÉCURITÉ - 20250519_085107
 ============================================================
 
 
@@ -160,29 +146,11 @@ Les résultats de Nikto sont affichés dans la console lors du scan.
 
 
 ==================== DETECTE LOGIN PAGE ====================
-Fichier: results/dirb_testphp.vulnweb.com.txt
-[FOUND] http://testphp.vulnweb.com/index.php?u=.php -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/index.php?u=.html -&gt; Status 200
-[LOGIN PAGE] http://testphp.vulnweb.com/login.php -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.php -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.html -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/?page=auth.inc.html -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.php -&gt; Status 200
-[FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.html -&gt; Status 200
-
-Total détecté : 9
+L'outil DIRB non executé.
 
 
 ==================== REDIRECTIONS DETECTÉES ====================
-Fichier: results/redirections_testphp.vulnweb.com.txt
-[REDIRECTION] + http://testphp.vulnweb.com/CVS (CODE:301|SIZE:169)
-[REDIRECTION] + http://testphp.vulnweb.com/admin (CODE:301|SIZE:169)
-[REDIRECTION] + http://testphp.vulnweb.com/images (CODE:301|SIZE:169)
-[REDIRECTION] + http://testphp.vulnweb.com/secured (CODE:301|SIZE:169)
-
-[+] Scan de redirection terminé.
-
+Aucune redirection détectée.
 
 
 ==================== SCAN Reconnaissance Domaine ====================
@@ -197,7 +165,40 @@ L'outil de scan XSS non executé.
 
 
 ==================== SCAN INJECTION SQL ====================
-L'outil de scan SQL non executé.
+Fichier: results/rapport_SQL.txt
+URL cible: https://pp.one/
+Profondeur de scan: 3
+Généré le: 19/05/2025 à 08:49:48
+
+=== URL(s) VULNÉRABLE(S) ===
+Aucune URL vulnérable détectée.
+
+=== URL(s) NON VULNÉRABLES ===
+- https://pp.one//
+- https://pp.one//terms
+- https://pp.one//privacy-policy
+- https://pp.one//contact-us
+- https://pp.one//cdn-cgi/l/email-protection#e393918a9582809aa39393cd8c8d86
+- https://pp.one//cdn-cgi/l/email-protection#aedddbdedec1dcdaeedede80c1c0cb
+- https://pp.one//cdn-cgi/l/email-protection#9ae9efeaeaf5e8eedaeaeab4f5f4ff
+- https://pp.one//cdn-cgi/l/email-protection#b5c5c7dcc3d4d6ccf5c5c59bdadbd0
+- https://pp.one//cdn-cgi/l/email-protection#a8d8dac1dec9cbd1e8d8d886c7c6cd
+- https://pp.one//cdn-cgi/l/email-protection#2d5d5f445b4c4e546d5d5d03424348
+- https://pp.one//cdn-cgi/l/email-protection
+- https://pp.one//cdn-cgi/l/email-protection#9eeeecf7e8fffde7deeeeeb0f1f0fb
+- https://pp.one//cdn-cgi/l/email-protection#5c2c2e352a3d3f251c2c2c72333239
+- https://pp.one//cdn-cgi/l/email-protection#51212338273032281121217f3e3f34
+- https://pp.one//cdn-cgi/l/email-protection#2c5f595c5c435e586c5c5c02434249
+- https://pp.one//cdn-cgi/l/email-protection#c0b3b5b0b0afb2b480b0b0eeafaea5
+- https://pp.one//cdn-cgi/l/email-protection#5f2c2a2f2f302d2b1f2f2f7130313a
+- https://pp.one//cdn-cgi/l/email-protection#f88b8d8888978a8cb88888d697969d
+- https://pp.one//cdn-cgi/l/email-protection#a3d3d1cad5c2c0dae3d3d38dcccdc6
+- https://pp.one//cdn-cgi/l/email-protection#0b7b79627d6a68724b7b7b2564656e
+- https://pp.one//cdn-cgi/l/email-protection#70000219061113093000005e1f1e15
+- https://pp.one//cdn-cgi/l/email-protection#8afaf8e3fcebe9f3cafafaa4e5e4ef
+
+Aucune vulnérabilité SQL détectée.
+
 
 
 ==================== CONTENEURS DOCKER ====================

@@ -48,7 +48,7 @@
     1. Introduction
    </h2>
    <p>
-    Ce rapport présente les résultats du test d'intrusion effectué sur l'infrastructure du site testphp.vulnweb.com le 18/05/2025.
+    Ce rapport présente les résultats du test d'intrusion effectué sur l'infrastructure du site testphp.vulnweb.com le 19/05/2025.
    </p>
   </div>
   <div class="section">
@@ -105,34 +105,6 @@
     </tr>
     <tr>
      <td>
-      XSS potentiel
-     </td>
-     <td>
-      Moyenne
-     </td>
-     <td>
-      ParamSpider/XSS a été exécuté - des tests XSS ont réussi (vulnérabilité confirmée)
-     </td>
-     <td>
-      Filtrer et échapper les entrées utilisateur, implémenter CSP
-     </td>
-    </tr>
-    <tr>
-     <td>
-      Injection SQL
-     </td>
-     <td>
-      Critique
-     </td>
-     <td>
-      SQLMap/SQLMC a été exécuté - des injections SQL ont réussi (vulnérabilité confirmée)
-     </td>
-     <td>
-      Utiliser des requêtes préparées, valider les entrées, implémenter WAF
-     </td>
-    </tr>
-    <tr>
-     <td>
       Manque de X-Frame-Options
      </td>
      <td>
@@ -142,7 +114,7 @@
       + /: The anti-clickjacking X-Frame-Options header is not present. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
      </td>
      <td>
-      Ajouter header: X-Frame-Options DENY
+      Ajouter header X-Frame-Options
      </td>
     </tr>
     <tr>
@@ -156,7 +128,7 @@
       + /clientaccesspolicy.xml contains a full wildcard entry. See: https://docs.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/cc197955(v=vs.95)?redirectedfrom=MSDN
      </td>
      <td>
-      Restreindre les domaines dans les fichiers XML
+      Restreindre domaines XML
      </td>
     </tr>
     <tr>
@@ -170,7 +142,7 @@
       + /clientaccesspolicy.xml contains 12 lines which should be manually viewed for improper domains or wildcards. See: https://www.acunetix.com/vulnerabilities/web/insecure-clientaccesspolicy-xml-file/
      </td>
      <td>
-      Restreindre les domaines dans les fichiers XML
+      Restreindre domaines XML
      </td>
     </tr>
     <tr>
@@ -184,21 +156,21 @@
       + /crossdomain.xml contains a full wildcard entry. See: http://jeremiahgrossman.blogspot.com/2008/05/crossdomainxml-invites-cross-site.html
      </td>
      <td>
-      Restreindre les domaines dans les fichiers XML
+      Restreindre domaines XML
      </td>
     </tr>
     <tr>
      <td>
-      XSS
+      Page de Login détectée
      </td>
      <td>
-      Moyenne
+      Info
      </td>
      <td>
-      L'outil de scan XSS non executé.
+      [LOGIN PAGE] http://testphp.vulnweb.com/login.php -&gt; Status 200
      </td>
      <td>
-      Filtrer et échapper les entrées utilisateur
+      Ajouter des protections
      </td>
     </tr>
     <tr>
@@ -212,7 +184,7 @@
       Absence de l'en-tête anti-clickjacking
      </td>
      <td>
-      Ajouter header: X-Frame-Options DENY
+      Ajouter header X-Frame-Options
      </td>
     </tr>
     <tr>
@@ -240,7 +212,7 @@
       Absence de l'en-tête MIME-sniffing
      </td>
      <td>
-      Ajouter header: X-Content-Type-Options nosniff
+      Ajouter header X-Content-Type-Options
      </td>
     </tr>
    </table>
@@ -276,7 +248,7 @@
    <p>
     ============================================================
     <br/>
-    RAPPORT DE SÉCURITÉ - 20250518_174028
+    RAPPORT DE SÉCURITÉ - 20250519_130047
     <br/>
     ============================================================
     <br/>
@@ -298,7 +270,7 @@
     <br/>
     + Target Port:        80
     <br/>
-    + Start Time:         2025-05-18 17:38:49 (GMT-4)
+    + Start Time:         2025-05-19 12:32:13 (GMT-4)
     <br/>
     ---------------------------------------------------------------------------
     <br/>
@@ -318,7 +290,7 @@
     <br/>
     + Scan terminated: 20 error(s) and 6 item(s) reported on remote host
     <br/>
-    + End Time:           2025-05-18 17:39:53 (GMT-4) (64 seconds)
+    + End Time:           2025-05-19 12:33:12 (GMT-4) (59 seconds)
     <br/>
     ---------------------------------------------------------------------------
     <br/>
@@ -338,13 +310,46 @@
     <br/>
     ==================== DETECTE LOGIN PAGE ====================
     <br/>
-    L'outil DIRB non executé.
+    Fichier: results/dirb_testphp.vulnweb.com.txt
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/index.php?u=.php -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/index.php?u=.html -&gt; Status 200
+    <br/>
+    [LOGIN PAGE] http://testphp.vulnweb.com/login.php -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.php -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/?page=admin.auth.inc.html -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/?page=auth.inc.php -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/?page=auth.inc.html -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.php -&gt; Status 200
+    <br/>
+    [FOUND] http://testphp.vulnweb.com/?page=auth.inc.php.html -&gt; Status 200
+    <br/>
+    <br/>
+    Total détecté : 9
     <br/>
     <br/>
     <br/>
     ==================== REDIRECTIONS DETECTÉES ====================
     <br/>
-    Aucune redirection détectée.
+    Fichier: results/redirections_testphp.vulnweb.com.txt
+    <br/>
+    [REDIRECTION] + http://testphp.vulnweb.com/CVS (CODE:301|SIZE:169)
+    <br/>
+    [REDIRECTION] + http://testphp.vulnweb.com/admin (CODE:301|SIZE:169)
+    <br/>
+    [REDIRECTION] + http://testphp.vulnweb.com/images (CODE:301|SIZE:169)
+    <br/>
+    [REDIRECTION] + http://testphp.vulnweb.com/secured (CODE:301|SIZE:169)
+    <br/>
+    <br/>
+    [+] Scan de redirection terminé.
+    <br/>
     <br/>
     <br/>
     <br/>
@@ -380,13 +385,13 @@
     projectdiscovery.io
     <br/>
     <br/>
-    [INF] Current subfinder version v2.6.0 (outdated)
+    [INF] Current subfinder version v2.7.0 (outdated)
     <br/>
     [INF] Loading provider config from /root/.config/subfinder/provider-config.yaml
     <br/>
     [INF] Enumerating subdomains for testphp.vulnweb.com
     <br/>
-    [INF] Found 2 subdomains for testphp.vulnweb.com in 6 seconds 456 milliseconds
+    [INF] Found 2 subdomains for testphp.vulnweb.com in 11 seconds 55 milliseconds
     <br/>
     <br/>
     <br/>
@@ -402,11 +407,11 @@
     <br/>
     - PHP 5.6.40
     <br/>
-    - Nginx 1.19.0
+    - DreamWeaver
     <br/>
     - Ubuntu
     <br/>
-    - DreamWeaver
+    - Nginx 1.19.0
     <br/>
     <br/>
     <br/>
@@ -415,7 +420,7 @@
     <br/>
     No match for "TESTPHP.VULNWEB.COM".
     <br/>
-    &gt;&gt;&gt; Last update of whois database: 2025-05-18T21:40:00Z &lt;&lt;&lt;
+    &gt;&gt;&gt; Last update of whois database: 2025-05-19T16:33:26Z &lt;&lt;&lt;
     <br/>
     <br/>
     NOTICE: The expiration date displayed in this record is the date the

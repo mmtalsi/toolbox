@@ -83,24 +83,28 @@ def scan_XSS(target_url):
                     print(f"[!] Erreur de requête : {e}")
 
     # Écrire les résultats dans un fichier
-    if found_vulns:
-        with open(output_file, "w") as f_out:
+    with open(output_file, "w") as f_out:
+        if found_vulns:
             f_out.writelines(found_vulns)
-        print(f"✅ Résultats enregistrés dans : {output_file}")
-    else:
-        print("✅ Aucun résultat à enregistrer (aucune vulnérabilité trouvée).")
+            print(f"✅ Résultats enregistrés dans : {output_file}")
+        else:
+            f_out.write("Aucune vulnérabilité XSS trouvée.\n")
+            print("✅ Aucun résultat à enregistrer (aucune vulnérabilité XSS trouvée).")
                     
-def test_xss_redirection():
+def test_xss_redirection(base_url: str):
     """
     Teste si une redirection vers evil.com est détectable via une requête HTTP simple.
     Si oui, ouvre Firefox avec l'URL contenant le payload.
-    
+
+    Args:
+        base_url (str): L'URL de base à tester, par exemple "http://example.com/page?param="
+
     Returns:
         tuple: (redirection_detectée: bool, url_finale: str)
     """
     payload = '<script>window.location.href="https://evil.com"</script>'
     encoded_payload = urllib.parse.quote(payload)
-    target_url = f"http://testphp.vulnweb.com/listproducts.php?artist={encoded_payload}"
+    target_url = f"{base_url}{encoded_payload}"
 
     try:
         response = requests.get(target_url, allow_redirects=True, timeout=5)
@@ -110,17 +114,17 @@ def test_xss_redirection():
         if redirige:
             print("[✅] Redirection détectée vers :", final_url)
 
-            # 🧨 Lance Firefox (non-root recommandé)
+            # 🧨 Lance le navigateur par défaut (évite d'exiger Firefox uniquement)
             process = subprocess.Popen(["xdg-open", target_url])
 
             # ⏳ Attend 5 secondes
             time.sleep(5)
 
             # 🛑 Termine le processus proprement
-            process.terminate()  # envoie SIGTERM
+            process.terminate()
             time.sleep(1)
             if process.poll() is None:
-                process.kill()  # force si pas terminé
+                process.kill()
         else:
             print("[❌] Pas de redirection. URL finale :", final_url)
 

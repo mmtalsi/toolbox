@@ -116,15 +116,27 @@ def generer_rapport(url):
     contenu_rapport.append("\n")
     
     # 4. Résultats SQL Injection
-    contenu_rapport.append("==================== SCAN INJECTION SQL ====================")
+    contenu_rapport.append("==================== SCAN INJECTION SQL ====================") 
     fichiers_sql = glob('results/rapport_SQL.txt')
     if fichiers_sql:
         for fichier in fichiers_sql:
             contenu_rapport.append(f"Fichier: {fichier}")
-            contenu_rapport.append(lire_fichier(fichier))
+            contenu = lire_fichier(fichier)
+            contenu_rapport.append(contenu)
+            if "Aucune URL vulnérable détectée" in contenu:
+               contenu_rapport.append("Aucune vulnérabilité SQL détectée.\n")
     else:
-        contenu_rapport.append("L'outil de scan SQL non executé.")
+       contenu_rapport.append("L'outil de scan SQL non executé.")
     contenu_rapport.append("\n")
+    #contenu_rapport.append("==================== SCAN INJECTION SQL ====================")
+    #fichiers_sql = glob('results/rapport_SQL.txt')
+    #if fichiers_sql:
+        #for fichier in fichiers_sql:
+            #contenu_rapport.append(f"Fichier: {fichier}")
+            #contenu_rapport.append(lire_fichier(fichier))
+    #else:
+        #contenu_rapport.append("L'outil de scan SQL non executé.")
+    #contenu_rapport.append("\n")
     
     # 5. Informations sur les conteneurs Docker
     contenu_rapport.append("==================== CONTENEURS DOCKER ====================")
@@ -229,7 +241,7 @@ def menu(url):
         print(f"Le domaine est : {domain}")
         lancer_paramspider(domain)
         scan_XSS(domain)
-        test_xss_redirection() 
+        test_xss_redirection(url) 
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix == "4":

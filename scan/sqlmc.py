@@ -1,4 +1,4 @@
-import subprocess  
+import subprocess
 import sys
 import tempfile
 import os
@@ -28,7 +28,6 @@ def choisir_profondeur():
     return {'1': 1, '2': 2, '3': 3}.get(choix, 1)
 
 def preparer_dossier_resultats():
-    """Crée le dossier results s'il n'existe pas et retourne le chemin"""
     dossier = os.path.join(os.getcwd(), 'results')
     if not os.path.exists(dossier):
         os.makedirs(dossier)
@@ -81,7 +80,6 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
             print(Fore.BLUE + f"   {i}. {url}")
 
     with open(chemin_rapport, 'w', encoding='utf-8') as f:
-        #f.write(f"=== RAPPORT SQL - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')} ===\n\n")
         f.write(f"URL cible: {url_cible}\n")
         f.write(f"Profondeur de scan: {profondeur_scan}\n")
         f.write(f"Généré le: {datetime.now().strftime('%d/%m/%Y à %H:%M:%S')}\n\n")
@@ -97,17 +95,16 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
         if non_vulnérables:
             for url in non_vulnérables:
                 f.write(f"- {url}\n")
-        
-        #f.write("\n=== LOGS COMPLETS ===\n")
-        #f.write("\n".join(lignes))
 
-    #print(Fore.CYAN + "-"*60)
-    #print(Fore.GREEN + f"\n[✓] Rapport enregistré :")
-    #print(Fore.YELLOW + f"    Nom : {nom_rapport}")
-    #print(Fore.YELLOW + f"    Dossier : {os.path.abspath(dossier_results)}")
-    #print(Fore.CYAN + "="*60)
+    # Copie vers rapport_SQL.txt si aucune URL vulnérable
+    if not vulnérables:
+        chemin_global = os.path.join(dossier_results, "rapport_SQL.txt")
+        with open(chemin_rapport, 'r', encoding='utf-8') as src, \
+             open(chemin_global, 'w', encoding='utf-8') as dst:
+            dst.write(src.read())
+        print(Fore.YELLOW + f"[i] Aucun URL vulnérable – contenu copié dans : {chemin_global}")
 
-    # === MENU DE SÉLECTION D’URL VULNÉRABLE ===
+    # Menu de sélection d’URL vulnérable
     url_choisie = None
     if vulnérables:
         print(Fore.MAGENTA + "\n[+] Sélectionnez une URL vulnérable à utiliser :")
@@ -128,13 +125,13 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
     else:
         print(Fore.CYAN + "[i] Pas d’URL vulnérable à sélectionner.")
 
-    # Retour optionnel de la variable choisie si besoin dans d'autres fonctions
     return url_choisie
 
-def run_main(url_cible):
-    """Fonction principale qui encapsule la logique du programme"""
+def run_main(url_cible=None):
     afficher_banniere()
-    #url_cible = input(Fore.YELLOW + "[+] URL cible (ex: http://site.com): ").strip()
+    
+    if url_cible is None:
+        url_cible = input(Fore.YELLOW + "[+] URL cible (ex: http://site.com): ").strip()
     
     if not url_cible.startswith(('http://', 'https://')):
         print(Fore.RED + "[-] URL doit commencer par http:// ou https://")
@@ -142,7 +139,7 @@ def run_main(url_cible):
 
     profondeur = choisir_profondeur()
     domaine = urlparse(url_cible).netloc.replace(':', '_').replace('/', '_')
-    
+
     with tempfile.NamedTemporaryFile(delete=False) as tmp:
         fichier_sortie = tmp.name
 
@@ -150,7 +147,6 @@ def run_main(url_cible):
     try:
         subprocess.run(['sqlmc', '-u', url_cible, '-d', str(profondeur), '-o', fichier_sortie], check=True)
         url_choisie = analyser_resultats(fichier_sortie, domaine, url_cible, profondeur)
-        # Vous pouvez utiliser url_choisie ici
         if url_choisie:
             print(Fore.YELLOW + f"\n[✔] URL vulnérable sélectionnée pour traitement : {url_choisie}")
         else:
@@ -164,7 +160,7 @@ def run_main(url_cible):
             except:
                 pass
     return url_choisie
-    
+
 if __name__ == "__main__":
     try:
         run_main()
