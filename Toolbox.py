@@ -286,12 +286,15 @@ def menu(url):
         print("Script terminé")
         generer_rapport(url)
         fichiers_a_supprimer = glob.glob('results/*')
-        for fichier in fichiers_a_supprimer:
+        for chemin in fichiers_a_supprimer:
+            if os.path.isdir(chemin):
+                print(f"[-] Ignoré (dossier) : {chemin}")
+                continue
             try:
-                os.remove(fichier)
-                print(f"[+] Fichier supprimé : {fichier}")
-            except Exception as e:
-                print(f"[!] Erreur lors de la suppression de {fichier} : {e}")    
+                os.remove(chemin)
+                print(f"[+] Fichier supprimé : {chemin}")
+            except Exception as e:  
+                print(f"[!] Erreur lors de la suppression de {chemin} : {e}")
         sys.exit()
     else:
         print("Option non valide.")

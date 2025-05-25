@@ -132,8 +132,7 @@ def test_xss_redirection(base_url: str):
 
     except Exception as e:
         print("[⚠️] Erreur réseau :", e)
-        return False, ""
-        
+        return False, ""  
 
 def test_XSS(target_url):
 
