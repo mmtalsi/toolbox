@@ -1,0 +1,50 @@
+============================================================
+       RAPPORT DE SÉCURITÉ - 20250525_170226
+============================================================
+
+
+==================== SCAN NIKTO ====================
+L'outil Nikto non executé
+
+
+Les résultats de Nikto sont affichés dans la console lors du scan.
+
+
+==================== DETECTE LOGIN PAGE ====================
+L'outil DIRB non executé.
+
+
+==================== REDIRECTIONS DETECTÉES ====================
+Aucune redirection détectée.
+
+
+==================== SCAN Reconnaissance Domaine ====================
+L'outil de scan SQL non executé.
+
+
+Les résultats de DIRB sont affichés dans la console lors du scan.
+
+
+==================== SCAN XSS ====================
+L'outil de scan XSS non executé.
+
+
+==================== SCAN INJECTION SQL ====================
+L'outil de scan SQL non executé.
+
+
+==================== CONTENEURS DOCKER ====================
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+
+
+==================== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ====================
+Le scan des informations serveur et des en-têtes de sécurité n’a pas été effectué.
+
+
+==================== PORTS OUVERTS ET SERVICES ====================
+Le scan de ports n'a pas été effectué.
+
+
+Vérifiez les ports ouverts et services dans les résultats du scan initial.
+

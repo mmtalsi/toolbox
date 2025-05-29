@@ -79,12 +79,12 @@ def detecter_vulnerabilites(texte):
     # Vulnérabilités génériques basées sur les outils
     if "ParamSpider / XSS" in outils_executes:
         out.append(("XSS potentiel", "Moyenne", 
-                   "Tests XSS effectués avec succés - vérifier les résultats spécifiques dans la section  'Détails Techniques' ", 
+                   "Tests XSS effectués - vérifier les résultats spécifiques", 
                    "Filtrer les entrées, implémenter CSP"))
     
     if "SQLMap" in outils_executes:
         out.append(("Injection SQL", "Critique", 
-                   "Tests SQL effectués avec succés - vérifier les résultats spécifiques dans la section  'Détails Techniques' - vérifier les résultats spécifiques", 
+                   "Tests SQL effectués - vérifier les résultats spécifiques", 
                    "Requêtes préparées, WAF"))
     
     # Détection des vulnérabilités spécifiques
@@ -98,7 +98,7 @@ def detecter_vulnerabilites(texte):
         elif "XSS" in line.lower() and "aucun" not in line.lower():
             out.append(("XSS", "Moyenne", line, "Filtrage des entrées"))
         elif "[LOGIN PAGE]" in line:
-            out.append(("Page de login", "Info", line, "forcez le TLS (HSTS) pour chiffrer toutes les communications"))
+            out.append(("Page de login", "Info", line, "Protection renforcée"))
         elif "wildcard" in line:
             out.append(("Crossdomain non restreint", "Moyenne", line, "Restriction des domaines"))
         elif "anti-clickjacking" in line:
@@ -234,7 +234,7 @@ def ajouter_donnees_au_html(html_src, txt_path, html_out):
 if __name__ == "__main__":
     # Configuration des chemins
     template_html = "rapport.html"  # Fichier template de base
-    output_file = "rapport_complet.html"  # Fichier de sortie
+    output_file = "rapport_final.html"  # Fichier de sortie
     report_files = glob.glob("reports/security_report_*.txt")  # Fichiers de rapport
     
     if report_files:
