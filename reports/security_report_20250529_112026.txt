@@ -1,0 +1,339 @@
+============================================================
+       RAPPORT DE SÉCURITÉ - 20250529_112026
+============================================================
+
+
+==================== SCAN NIKTO ====================
+Fichier: results/nikto_google-gruyere.appspot.com.txt
+Résultats de Nikto :
+- Nikto v2.5.0
+---------------------------------------------------------------------------
++ Multiple IPs found: 172.217.20.212, 2a00:1450:4007:818::2014
++ Target IP:          172.217.20.212
++ Target Hostname:    google-gruyere.appspot.com
++ Target Port:        443
+---------------------------------------------------------------------------
++ SSL Info:        Subject:  /CN=*.appspot.com
+                   Ciphers:  TLS_AES_256_GCM_SHA384
+                   Issuer:   /C=US/O=Google Trust Services/CN=WR2
++ Start Time:         2025-05-29 09:48:57 (GMT-4)
+---------------------------------------------------------------------------
++ Server: Google Frontend
++ /: The anti-clickjacking X-Frame-Options header is not present. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options
++ /: Uncommon header 'x-cloud-trace-context' found, with contents: bff9006b6c63e2c11df9cef51df2517a;o=1.
++ /: The site uses TLS and the Strict-Transport-Security HTTP header is not defined. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security
++ /: An alt-svc header was found which is advertising HTTP/3. The endpoint is: ':443'. Nikto cannot test HTTP/3 over QUIC. See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/alt-svc
++ /: The X-Content-Type-Options header is not set. This could allow the user agent to render the content of the site in a different fashion to the MIME type. See: https://www.netsparker.com/web-vulnerability-scanner/vulnerabilities/missing-content-type-header/
++ No CGI Directories found (use '-C all' to force check all possible dirs)
++ /: The Content-Encoding header is set to "deflate" which may mean that the server is vulnerable to the BREACH attack. See: http://breachattack.com/
++ Server is using a wildcard certificate: *.appspot.com. See: https://en.wikipedia.org/wiki/Wildcard_certificate
++ OPTIONS: Allowed HTTP Methods: GET .
++ /#wp-config.php#: #wp-config.php# file found. This file contains the credentials.
++ 8046 requests: 0 error(s) and 9 item(s) reported on remote host
++ End Time:           2025-05-29 10:13:10 (GMT-4) (1453 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+
+
+
+Les résultats de Nikto sont affichés dans la console lors du scan.
+
+
+==================== DETECTE LOGIN PAGE ====================
+Fichier: results/dirb_google-gruyere.appspot.com.txt
+[FOUND] https://google-gruyere.appspot.com/?page=admin.auth.inc.php -> Status 200
+[FOUND] https://google-gruyere.appspot.com/?page=admin.auth.inc.html -> Status 200
+[FOUND] https://google-gruyere.appspot.com/?page=auth.inc.php -> Status 200
+[FOUND] https://google-gruyere.appspot.com/?page=auth.inc.html -> Status 200
+[FOUND] https://google-gruyere.appspot.com/?page=auth.inc.php.php -> Status 200
+[FOUND] https://google-gruyere.appspot.com/?page=auth.inc.php.html -> Status 200
+
+Total détecté : 6
+
+
+==================== REDIRECTIONS DETECTÉES ====================
+Fichier: results/redirections_google-gruyere.appspot.com.txt
+
+[+] Scan de redirection terminé.
+
+
+
+==================== SCAN Reconnaissance Domaine ====================
+Fichier: results/result_recon_google-gruyere.appspot.com.txt
+===== Domain Analysis Report for google-gruyere.appspot.com (216.58.214.180) =====
+
+=== [1] Subfinder ===
+www.google-gruyere.appspot.com
+
+
+[!] Error:
+
+               __    _____           __         
+   _______  __/ /_  / __(_)___  ____/ /__  _____
+  / ___/ / / / __ \/ /_/ / __ \/ __  / _ \/ ___/
+ (__  ) /_/ / /_/ / __/ / / / / /_/ /  __/ /    
+/____/\__,_/_.___/_/ /_/_/ /_/\__,_/\___/_/
+
+		projectdiscovery.io
+
+[INF] Current subfinder version v2.6.0 (outdated)
+[INF] Loading provider config from /root/.config/subfinder/provider-config.yaml
+[INF] Enumerating subdomains for google-gruyere.appspot.com
+[INF] Found 1 subdomains for google-gruyere.appspot.com in 674 milliseconds 240 microseconds
+
+
+
+=== [2] Analysis for google-gruyere.appspot.com ===
+
+--- WebTech ---
+Target URL: http://google-gruyere.appspot.com
+Detected technologies:
+	- Google Cloud Trace 
+Detected the following interesting custom headers:
+	- Server: Google Frontend
+
+
+
+--- WHOIS ---
+No match for "GOOGLE-GRUYERE.APPSPOT.COM".
+>>> Last update of whois database: 2025-05-29T14:12:55Z <<<
+
+NOTICE: The expiration date displayed in this record is the date the
+registrar's sponsorship of the domain name registration in the registry is
+currently set to expire. This date does not necessarily reflect the expiration
+date of the domain name registrant's agreement with the sponsoring
+registrar.  Users may consult the sponsoring registrar's Whois database to
+view the registrar's reported date of expiration for this registration.
+
+TERMS OF USE: You are not authorized to access or query our Whois
+database through the use of electronic processes that are high-volume and
+automated except as reasonably necessary to register domain names or
+modify existing registrations; the Data in VeriSign Global Registry
+Services' ("VeriSign") Whois database is provided by VeriSign for
+information purposes only, and to assist persons in obtaining information
+about or related to a domain name registration record. VeriSign does not
+guarantee its accuracy. By submitting a Whois query, you agree to abide
+by the following terms of use: You agree that you may use this Data only
+for lawful purposes and that under no circumstances will you use this Data
+to: (1) allow, enable, or otherwise support the transmission of mass
+unsolicited, commercial advertising or solicitations via e-mail, telephone,
+or facsimile; or (2) enable high volume, automated, electronic processes
+that apply to VeriSign (or its computer systems). The compilation,
+repackaging, dissemination or other use of this Data is expressly
+prohibited without the prior written consent of VeriSign. You agree not to
+use electronic processes that are automated and high-volume to access or
+query the Whois database except as reasonably necessary to register
+domain names or modify existing registrations. VeriSign reserves the right
+to restrict your access to the Whois database in its sole discretion to ensure
+operational stability.  VeriSign may restrict or terminate your access to the
+Whois database for failure to abide by these terms of use. VeriSign
+reserves the right to modify these terms at any time.
+
+The Registry database contains ONLY .COM, .NET, .EDU domains and
+Registrars.
+
+
+--- GeoIPLookup ---
+GeoIP Country Edition: US, United States
+
+
+
+
+Les résultats de DIRB sont affichés dans la console lors du scan.
+
+
+==================== SCAN XSS ====================
+Fichier: results/google-gruyere.appspot.com_result.txt
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/504393719571305623760556358768286901202/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/475695933922976031527560146826482506303/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/501804337495918090508330268400276949541/deletesnippet?index=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/346700707728/feed.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/461247487426350888728454184351651074918/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/472617830678802669343791251981191715912/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/346700707728/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/363038598960878439636902723489380375175/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/570858837630736376357708925301852394545/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/346700707728/feed.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/326352883334/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/391690066447129015806159358947433015057/deletesnippet?index=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/873589404642/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/558836115405/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/449306991985261839145273766136992713590/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/439231620380/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/604171891679047123866800745266774998333/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/396646343866768370042228355592186750184/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/346700707728/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/422755976210259687554726564980933880937/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/533248056817779028834723647774214787781/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/916751114721/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/381623706577574150239707156017897788927/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/633874784208505383698678550380081414036/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/580118915454279966051359237216769486450/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/518533493053362246958127070911238275801/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: https://google-gruyere.appspot.com/421072351341278219639055445338437867906/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/628095723060205130537033736004331063184/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/574824910746804805843755099995540974314/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/443553537745900338697626020218549023613/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/354670168084916934371555349463656579596/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/367839749691/snippets.gtl?uid=<script>alert(1)</script>
+
+Payload: <script>alert(1)</script>
+URL: http://google-gruyere.appspot.com/668547850806477727011911180540712080115/snippets.gtl?uid=<script>alert(1)</script>
+
+
+
+
+==================== SCAN INJECTION SQL ====================
+Fichier: results/rapport_SQL.txt
+URL cible: https://google-gruyere.appspot.com/
+Profondeur de scan: 3
+Généré le: 29/05/2025 à 11:17:21
+
+=== URL(s) VULNÉRABLE(S) ===
+Aucune URL vulnérable détectée.
+
+=== URL(s) NON VULNÉRABLES ===
+- https://google-gruyere.appspot.com//part1#1__features_and_technologies
+- https://google-gruyere.appspot.com//#0__hackers
+- https://google-gruyere.appspot.com//part2#2__xss_challenge
+- https://google-gruyere.appspot.com//part1#1__about_the_code
+- https://google-gruyere.appspot.com//part2#2__stored_xss_via_html_attribute
+- https://google-gruyere.appspot.com//part5#5__information_disclosure_bug_3
+- https://google-gruyere.appspot.com//part2#2__cross_site_scripting
+- https://google-gruyere.appspot.com//part1#1__setup
+- https://google-gruyere.appspot.com//part4#4__code_execution_challenge
+- https://google-gruyere.appspot.com//part2#2__stored_xss_via_ajax
+- https://google-gruyere.appspot.com//part4#4__denial_of_service
+- https://google-gruyere.appspot.com//part3#3__xssi_challenge
+- https://google-gruyere.appspot.com//part4#4__more_dos
+- https://google-gruyere.appspot.com//part1#1__reset_button
+- https://google-gruyere.appspot.com//part2#2__stored_xss
+- https://google-gruyere.appspot.com//part4#4__dos_quit_server
+- https://google-gruyere.appspot.com//part1#1__using_gruyere
+- https://google-gruyere.appspot.com//part3#3__elevation_of_privilege
+- https://google-gruyere.appspot.com//part2#2__more_about_xss
+- https://google-gruyere.appspot.com//part2#2__reflected_xss_via_ajax
+- https://google-gruyere.appspot.com//part4#4__data_tampering_path_traversal
+- https://google-gruyere.appspot.com//part4#4__path_traversal
+- https://google-gruyere.appspot.com//part3#3__client_state_manipulation
+- https://google-gruyere.appspot.com//part3#3__cross_site_script_inclusion
+- https://google-gruyere.appspot.com//part3#3__xsrf_challenge
+- https://google-gruyere.appspot.com//part2#2__reflected_xss
+- https://google-gruyere.appspot.com//#0__gruyere
+- https://google-gruyere.appspot.com//part3#3__cookie_manipulation
+- https://google-gruyere.appspot.com//part5#5__buffer_and_integer_overflow
+- https://google-gruyere.appspot.com//part5#5__information_disclosure_config_2
+- https://google-gruyere.appspot.com//part4#4__dos_overload_server
+- https://google-gruyere.appspot.com//part3#3__cross_site_request_forgery
+- https://google-gruyere.appspot.com//part3#3__more_about_preventing_xsrf
+- https://google-gruyere.appspot.com//part5#5__dos_via_ajax
+- https://google-gruyere.appspot.com//part4#4__code_execution
+- https://google-gruyere.appspot.com//part4#4__more_code_execution
+- https://google-gruyere.appspot.com//part5#5__after_the_codelab
+- https://google-gruyere.appspot.com//static/gruyere.png
+- https://google-gruyere.appspot.com//part4#4__information_disclosure_path_traversal
+- https://google-gruyere.appspot.com//part5#5__sql_injection
+- https://google-gruyere.appspot.com//part2#2__file_upload_xss
+- https://google-gruyere.appspot.com//part5#5__ajax_vulnerabilities
+- https://google-gruyere.appspot.com//part5#5__other_vulnerabilities
+- https://google-gruyere.appspot.com//part5#5__phishing_via_ajax
+- https://google-gruyere.appspot.com//part5#5__configuration_vulnerabilities
+- https://google-gruyere.appspot.com//part5#5__information_disclosure_config_1
+- https://google-gruyere.appspot.com//part1
+
+Aucune vulnérabilité SQL détectée.
+
+
+
+==================== CONTENEURS DOCKER ====================
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+
+
+==================== INFORMATIONS SERVEUR ET EN-TÊTES DE SÉCURITÉ ====================
+Fichier: results/check_server_google-gruyere.appspot.com.txt
+Serveur Web : Google Frontend
+Propulsé par : Non disponible
+Support de la compression : Non supporté
+
+Vérification des en-têtes de sécurité:
+Absence de l'en-tête anti-clickjacking
+Absence de l'en-tête XSS protection
+Absence de l'en-tête MIME-sniffing
+
+
+
+==================== PORTS OUVERTS ET SERVICES ====================
+Fichier: results/ports_google-gruyere.appspot.com.txt
+Ports ouverts trouvés sur 172.217.20.212 : ['80', '443']
+Scanning services on open ports: 80,443
+Port 80 : http (open)
+Port 443 : https (open)
+
+
+
+Vérifiez les ports ouverts et services dans les résultats du scan initial.
+

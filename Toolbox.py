@@ -24,7 +24,51 @@ from scan.XSS import test_xss_redirection
 from scan.sqlmc import run_main
 from scan.sqlmap import sqlmap
 from urllib.parse import urlparse
+from rapport_complet import rapport
 
+import re
+from urllib.parse import urlparse
+
+def url_valide(url: str) -> bool:
+    """
+    Vérifie que l'URL :
+      - commence par http:// ou https://
+      - contient un domaine de type "mon-site.com" ou "sous.domaine.fr"
+      - se termine par un slash "/" OBLIGATOIRE
+      - n'a pas de chemin autre qu'un slash final
+    Renvoie True si l'URL est au format "http(s)://domaine.tld/", False sinon.
+    """
+
+    # 1) Vérification de la structure générale via urlparse
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        # Schéma invalide (ni http ni https)
+        return False
+
+    if not parsed.netloc:
+        # Il n’y a pas de domaine
+        return False
+
+    # Le chemin doit être exactement "/"
+    if parsed.path != "/":
+        return False
+
+    # Pas de params, query ou fragment autorisés
+    if parsed.params or parsed.query or parsed.fragment:
+        return False
+
+    # 2) Vérification stricte avec une regex :
+    #    - http:// ou https:// en début
+    #    - un nom de domaine avec au moins un point (ex.: example.com)
+    #    - OBLIGATOIREMENT un slash final
+    regex = re.compile(
+        r"^https?://"               # "http://" ou "https://"
+        r"[A-Za-z0-9\-]+\."         # segment de domaine + point (ex. "mon-site.")
+        r"[A-Za-z0-9\-\.]*[A-Za-z0-9\-]"  # reste du domaine (ex. "domaine" ou "sous.domaine")
+        r"/$"                        # slash final obligatoire et fin de chaîne
+    )
+    return bool(regex.match(url))
+    
 def generer_rapport(url):
     """Génère un rapport consolidé des différents scans effectués"""
     import os
@@ -285,6 +329,7 @@ def menu(url):
     elif choix.upper() == "Q":
         print("Script terminé")
         generer_rapport(url)
+        rapport()
         fichiers_a_supprimer = glob.glob('results/*')
         for chemin in fichiers_a_supprimer:
             if os.path.isdir(chemin):
@@ -300,6 +345,13 @@ def menu(url):
         print("Option non valide.")
         menu(url)
 
+
 if __name__ == "__main__":
-    url = input("\nEntrez l'URL à scanner : ")
-    menu(url)
+    url = input("Entrez l'URL à scanner : ").strip()
+    if not url_valide(url):
+        print(" URL incorrecte. Format attendu : http://domaine.tld/ ou https://domaine.tld/ (slash final OBLIGATOIRE).")
+        sys.exit(1)
+
+    # Si on arrive ici, l’URL est valide (avec slash final)
+    print("URL valide :", url)
+    menu(url)  # ou tout autre traitement

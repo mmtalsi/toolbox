@@ -308,10 +308,8 @@ def inject():
 
     COMPLETE_REPORT_PATH.write_text(str(soup), encoding='utf-8')
     print(f"Injecté les sections pour : {', '.join(keys)}")
-
-
-if __name__ == "__main__":
-    # Configuration des chemins
+def rapport():
+# Configuration des chemins
     template_html = "rapport.html"  # Fichier template de base
     output_file = "rapport_complet.html"  # Fichier de sortie
     report_files = glob.glob("reports/security_report_*.txt")  # Fichiers de rapport
@@ -323,3 +321,6 @@ if __name__ == "__main__":
     else:
         print("Erreur: Aucun fichier de rapport trouvé dans 'reports/'")
         print("Assurez-vous d'avoir des fichiers security_report_*.txt dans le dossier reports/")
+
+if __name__ == "__main__":
+    rapport()

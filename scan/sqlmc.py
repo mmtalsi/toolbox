@@ -52,11 +52,9 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
             current_url = ligne
         elif current_url and 'Vulnerable:' in ligne:
             if 'Not Vulnerable' in ligne:
-                if current_url not in non_vulnérables:
-                    non_vulnérables.append(current_url)
+                non_vulnérables.append(current_url)
             else:
-                if current_url not in vulnérables:
-                    vulnérables.append(current_url)
+                vulnérables.append(current_url)
             current_url = None
 
     dossier_results = preparer_dossier_resultats()
@@ -127,8 +125,11 @@ def analyser_resultats(fichier_sortie, domaine, url_cible, profondeur_scan):
 
     return url_choisie
 
+
 def run_main(url_cible=None):
     afficher_banniere()
+    # Ensure url_choisie is always defined
+    url_choisie = None
     
     if url_cible is None:
         url_cible = input(Fore.YELLOW + "[+] URL cible (ex: http://site.com): ").strip()
@@ -153,6 +154,9 @@ def run_main(url_cible=None):
             print(Fore.YELLOW + "\n[!] Aucune URL vulnérable sélectionnée.")
     except subprocess.CalledProcessError:
         print(Fore.RED + "\n[!] Erreur lors de l'exécution de SQLMC")
+    except Exception as e:
+        # Catch other errors, e.g., TimeoutError
+        print(Fore.RED + f"\n[!] Erreur inattendue durant le scan: {e}")
     finally:
         if os.path.exists(fichier_sortie):
             try:
@@ -168,5 +172,5 @@ if __name__ == "__main__":
         print(Fore.RED + "\n[!] Scan interrompu")
         sys.exit(1)
     except Exception as e:
-        print(Fore.RED + f"\n[!] Erreur: {str(e)}")
+        print(Fore.RED + f"\n[!] Erreur fatale: {e}")
         sys.exit(1)
