@@ -4,6 +4,8 @@ import os
 import glob
 import sys
 
+from password.password_security import PasswordSecurity
+#rom password.password_security import analyze_password_security
 from scan.nikto import scan_vulnerabilities
 from scan.nikto import check_server
 from scan.nikto import scan_all_ports
@@ -248,7 +250,8 @@ def menu(url):
     print("             [6] - Détection de CVE_2021_41773")
     print("             [7] - Deployer les machines de démo")
     print("             [8] - Infos CVE")
-    print("             [9] - Destruction\n")
+    print("             [9] - Destruction")
+    print("             [10] - Force du Password\n")
     print("         [Q] - Quitter\n")
 
     choix = input("Veuillez choisir une option: ")
@@ -324,6 +327,11 @@ def menu(url):
         menu(url)
     elif choix == "9":
         tuer_tous_les_conteneurs()
+        input("Appuyez sur entrer pour retourner au menu")
+        menu(url)
+    elif choix == "10":
+        ps = PasswordSecurity()
+        ps.analyze_password_security()
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
     elif choix.upper() == "Q":
