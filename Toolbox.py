@@ -3,6 +3,9 @@ import subprocess
 import os
 import glob
 import sys
+import re
+import ipaddress
+from urllib.parse import urlparse
 
 from password.password_security import PasswordSecurity
 #rom password.password_security import analyze_password_security
@@ -35,41 +38,56 @@ def url_valide(url: str) -> bool:
     """
     Vérifie que l'URL :
       - commence par http:// ou https://
-      - contient un domaine de type "mon-site.com" ou "sous.domaine.fr"
+      - contient soit :
+          • un domaine de type "mon-site.com" ou "sous.domaine.fr"
+          • une adresse IPv4, avec port optionnel (ex. 127.0.0.1 ou 127.0.0.1:8080)
       - se termine par un slash "/" OBLIGATOIRE
       - n'a pas de chemin autre qu'un slash final
-    Renvoie True si l'URL est au format "http(s)://domaine.tld/", False sinon.
+      - pas de params, query ou fragment
     """
-
-    # 1) Vérification de la structure générale via urlparse
     parsed = urlparse(url)
+    # Schéma
     if parsed.scheme not in ("http", "https"):
-        # Schéma invalide (ni http ni https)
         return False
-
-    if not parsed.netloc:
-        # Il n’y a pas de domaine
-        return False
-
-    # Le chemin doit être exactement "/"
+    # Chemin strict
     if parsed.path != "/":
         return False
-
-    # Pas de params, query ou fragment autorisés
     if parsed.params or parsed.query or parsed.fragment:
         return False
 
-    # 2) Vérification stricte avec une regex :
-    #    - http:// ou https:// en début
-    #    - un nom de domaine avec au moins un point (ex.: example.com)
-    #    - OBLIGATOIREMENT un slash final
-    regex = re.compile(
-        r"^https?://"               # "http://" ou "https://"
-        r"[A-Za-z0-9\-]+\."         # segment de domaine + point (ex. "mon-site.")
-        r"[A-Za-z0-9\-\.]*[A-Za-z0-9\-]"  # reste du domaine (ex. "domaine" ou "sous.domaine")
-        r"/$"                        # slash final obligatoire et fin de chaîne
+    # Vérification du host (netloc sans userinfo)
+    host = parsed.hostname
+    if host is None:
+        return False
+
+    # 1) Essayer de reconnaître une IPv4
+    try:
+        ipaddress.IPv4Address(host)
+        # si port présent, vérifier qu'il est dans [1–65535]
+        if parsed.port is not None and not (1 <= parsed.port <= 65535):
+            return False
+        return True
+    except ipaddress.AddressValueError:
+        pass  # ce n'est pas une IP, on testera en domaine
+
+    # 2) Validation stricte du nom de domaine
+    #    - segments alphanum + tirets
+    #    - au moins un point
+    domain_regex = re.compile(
+        r"""^
+        (?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+   # sous-domaines + domaine de second niveau
+        [A-Za-z]{2,63}                                         # TLD (lettres, 2 à 63 chars)
+        $""",
+        re.VERBOSE
     )
-    return bool(regex.match(url))
+    if not domain_regex.match(host):
+        return False
+
+    # Vérifier port si spécifié
+    if parsed.port is not None and not (1 <= parsed.port <= 65535):
+        return False
+
+    return True
     
 def generer_rapport(url):
     """Génère un rapport consolidé des différents scans effectués"""
