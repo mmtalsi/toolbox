@@ -34,6 +34,23 @@ from rapport_complet import rapport
 import re
 from urllib.parse import urlparse
 
+def nettoyer_dossier(dossier: str):
+    """
+    Supprime tous les fichiers (pas les sous-dossiers)
+    dans le répertoire donné.
+    """
+    pattern = os.path.join(dossier, '*')
+    fichiers = glob.glob(pattern)
+    for chemin in fichiers:
+        if os.path.isdir(chemin):
+            print(f"[-] Ignoré (dossier) : {chemin}")
+            continue
+        try:
+            os.remove(chemin)
+            print(f"[+] Fichier supprimé : {chemin}")
+        except Exception as e:
+            print(f"[!] Erreur lors de la suppression de {chemin} : {e}")
+
 def url_valide(url: str) -> bool:
     """
     Vérifie que l'URL :
@@ -244,7 +261,7 @@ def generer_rapport(url):
         f.write("\n".join(contenu_rapport))
     
     print(f"\n[+] Rapport généré avec succès: {rapport_filename}")
-    input("Appuyez sur entrer pour retourner au menu")
+    input("Appuyez sur entrer pour générer le rapport final")
 
 def get_domain(url):
     parsed_url = urlparse(url)
@@ -356,19 +373,13 @@ def menu(url):
         print("Script terminé")
         generer_rapport(url)
         rapport()
-        fichiers_a_supprimer = glob.glob('results/*')
-        for chemin in fichiers_a_supprimer:
-            if os.path.isdir(chemin):
-                print(f"[-] Ignoré (dossier) : {chemin}")
-                continue
-            try:
-                os.remove(chemin)
-                print(f"[+] Fichier supprimé : {chemin}")
-            except Exception as e:  
-                print(f"[!] Erreur lors de la suppression de {chemin} : {e}")
+        for dossier in ('results', 'reports'):
+            if os.path.exists(dossier) and os.path.isdir(dossier):
+                print(f"Nettoyage du dossier `{dossier}/`…")
+                nettoyer_dossier(dossier)
+            else:
+                print(f"[!] Le dossier `{dossier}/` n'existe pas ou n'est pas un répertoire")
         sys.exit()
-    else:
-        print("Option non valide.")
         menu(url)
 
 

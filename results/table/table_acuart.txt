@@ -8,4 +8,4 @@ Tables de la base de données : acuart
 - products
 - users
 
-Table sélectionnée : categ
+Table sélectionnée : users

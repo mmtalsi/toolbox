@@ -6,27 +6,29 @@ import requests
 import concurrent.futures
 
 def lancer_conteneur_docker_CVE_2024_38473():
-    # Obtient le répertoire actuel
     repertoire_actuel = os.getcwd()
-    
-    # Construit la commande Docker
-    commande_docker = f'docker run -p 8787:80 -v "{repertoire_actuel}/demo/test-env-webroot:/app" webdevops/php-apache:7.1'
+    chemin_webroot = os.path.join(repertoire_actuel, "test-env-webroot")
+    if not os.path.isdir(chemin_webroot):
+        print(f"Répertoire introuvable : {chemin_webroot}")
+        return
+
+    # Mode détaché (-d)
+    commande_docker = (
+        'docker run -d '
+        '-p 8787:80 '
+        f'-v "{chemin_webroot}:/app" '
+        'webdevops/php-apache:7.1'
+    )
 
     try:
-        # Détection automatique du terminal disponible
-        terminal = None
-        for term in ["gnome-terminal", "xfce4-terminal", "konsole", "x-terminal-emulator"]:
-            if subprocess.run(f"which {term}", shell=True, capture_output=True).returncode == 0:
-                terminal = term
-                break
-
-        if terminal:
-            subprocess.Popen([terminal, "-e", f"bash -c '{commande_docker}; exec bash'"])
-        else:
-            print("Aucun terminal compatible trouvé. Exécutez la commande manuellement.")
-
-    except subprocess.SubprocessError as e:
-        print(f"Erreur lors de l'exécution du conteneur : {e}")
+        # Pour plus de simplicité, on exécute directement dans le shell courant
+        result = subprocess.run(commande_docker, shell=True, check=True, capture_output=True)
+        container_id = result.stdout.decode().strip()
+        print(f"Conteneur démarré avec l’ID : {container_id}")
+        print("Vérifiez avec : docker ps")
+    except subprocess.CalledProcessError as e:
+        print("Échec du lancement du conteneur :")
+        print(e.stderr.decode())
 
 def lancer_conteneur_docker_CVE_2021_41773(image_name: str, port_mapping: str):
     try:

