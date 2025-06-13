@@ -30,7 +30,8 @@ from scan.sqlmc import run_main
 from scan.sqlmap import sqlmap
 from urllib.parse import urlparse
 from rapport_complet import rapport
-
+from cve_2021_41773.exploit import exploiter_cve_2021_41773
+from Broken_Auth import JWTScanner
 import re
 from urllib.parse import urlparse
 
@@ -286,7 +287,9 @@ def menu(url):
     print("             [7] - Deployer les machines de démo")
     print("             [8] - Infos CVE")
     print("             [9] - Destruction")
-    print("             [10] - Force du Password\n")
+    print("             [10] - Force du Password")
+    print("             [11] - Lancer l'exploit CVE-2021-41773")
+    print("             [12] - Broken Authentification\n")
     print("         [Q] - Quitter\n")
 
     choix = input("Veuillez choisir une option: ")
@@ -369,6 +372,17 @@ def menu(url):
         ps.analyze_password_security()
         input("Appuyez sur entrer pour retourner au menu")
         menu(url)
+    elif choix == "11":
+       exploiter_cve_2021_41773(url)
+       input("Appuyez sur entrer pour retourner au menu")
+       menu(url)
+    elif choix == "12":
+     scanner = JWTScanner()   # instanciation sans argument
+     scanner.run_scan()       # lance le scan interactif
+     scanner.save_results()   # sauvegarde le rapport
+     input("Appuyez sur Entrée pour retourner au menu...")
+     menu(url)
+  
     elif choix.upper() == "Q":
         print("Script terminé")
         generer_rapport(url)

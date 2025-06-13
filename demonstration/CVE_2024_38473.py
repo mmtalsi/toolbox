@@ -30,18 +30,20 @@ def lancer_conteneur_docker_CVE_2024_38473():
         print("Échec du lancement du conteneur :")
         print(e.stderr.decode())
 
-def lancer_conteneur_docker_CVE_2021_41773(image_name: str, port_mapping: str):
+def lancer_conteneur_docker_CVE_2021_41773(image_name: str, port_mapping: str, chemin_dossier: str = "cve_2021_41773"):
     try:
-        # Étape 1 : Pull de l'image Docker
-        pull_result = subprocess.run(
-            ["docker", "pull", image_name],
+        # Étape 1 : Build local de l'image Docker
+        print(f"[+] Construction de l'image Docker '{image_name}' depuis {chemin_dossier}...")
+        build_result = subprocess.run(
+            ["docker", "build", "-t", image_name, "."],
+            cwd=chemin_dossier,
             capture_output=True,
             text=True,
             check=True
         )
-        print(f"[✔] Image '{image_name}' pulled successfully.")
+        print(f"[✔] Image '{image_name}' construite avec succès.")
 
-        # Étape 2 : Lancement du conteneur Docker
+        # Étape 2 : Lancement du conteneur
         run_result = subprocess.run(
             ["docker", "run", "-dit", "-p", port_mapping, image_name],
             capture_output=True,
@@ -49,12 +51,13 @@ def lancer_conteneur_docker_CVE_2021_41773(image_name: str, port_mapping: str):
             check=True
         )
         container_id = run_result.stdout.strip()
-        print(f"[✔] Container started successfully with ID: {container_id}")
+        print(f"[✔] Conteneur lancé avec succès (ID: {container_id})")
         return container_id
 
     except subprocess.CalledProcessError as e:
-        print(f"[✖] Error occurred:\n{e.stderr}")
+        print(f"[✖] Une erreur est survenue :\n{e.stderr}")
         return None
+
 import requests
 
 def check_cve_2021_41773(url):
