@@ -225,4 +225,7 @@ class JWTScanner:
 if __name__ == "__main__":
     scanner = JWTScanner()
     scanner.run_scan()
+    print(scanner.results)  # 🔹 Affiche le rapport complet dans le terminal
     scanner.save_results()
+    input("\nAppuyez sur Entrée pour retourner au menu...")
+
