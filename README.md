@@ -51,8 +51,8 @@ Assurez-vous que Docker est installé si vous souhaitez utiliser les démos.
 python Toolbox.py  
 Entrez une URL sous la forme : http://site.com/ (le slash final est obligatoire).  
 
-📊 Interprétation des Résultats
-La Toolbox génère une série de fichiers lors des analyses, stockés dans une structure claire pour faciliter l’analyse post-exécution :
+📊 Interprétation des Résultats  
+La Toolbox génère une série de fichiers lors des analyses, stockés dans une structure claire pour faciliter l’analyse post-exécution :  
 
 📁 results/ – Fichiers bruts par module   
 Contient les sorties textuelles générées par chaque outil :
