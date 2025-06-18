@@ -77,7 +77,12 @@ def url_valide(url: str) -> bool:
     host = parsed.hostname
     if host is None:
         return False
-
+    # 4. Cas localhost (avec ou sans port)
+    if host == "localhost":
+        if parsed.port is None or (1 <= parsed.port <= 65535):
+            return True
+        else:
+            return False
     # 1) Essayer de reconnaître une IPv4
     try:
         ipaddress.IPv4Address(host)
