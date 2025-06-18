@@ -51,7 +51,7 @@ Assurez-vous que Docker est installé si vous souhaitez utiliser les démos.
 python Toolbox.py  
 Entrez une URL sous la forme : http://site.com/ (le slash final est obligatoire).  
 
-🛠️ Outils Utilisés
+🛠️ Outils Utilisés  
 La Toolbox repose sur une combinaison d’outils open-source reconnus dans le domaine du pentest. Chacun est intégré pour une tâche spécifique, automatisée depuis l’interface principale.
 
 | Outil                       | Rôle / Fonction principale                                     |
