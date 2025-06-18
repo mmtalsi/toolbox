@@ -51,16 +51,44 @@ Assurez-vous que Docker est installé si vous souhaitez utiliser les démos.
 python Toolbox.py  
 Entrez une URL sous la forme : http://site.com/ (le slash final est obligatoire).  
 
-📄 Rapport  
-Un rapport texte est généré dans reports/security_report_<date>.txt, regroupant :  
+📊 Interprétation des Résultats
+La Toolbox génère une série de fichiers lors des analyses, stockés dans une structure claire pour faciliter l’analyse post-exécution :
 
-Résultats des outils (Nikto, DirB, SQLmap…)  
+📁 results/ – Fichiers bruts par module
+Contient les sorties textuelles générées par chaque outil :
 
-Détails des ports et services  
+     nikto_<domaine>.txt : Scan des vulnérabilités HTTP (scripts, en-têtes, versions obsolètes).
 
-Headers HTTP et vulnérabilités détectées  
+     ports_<domaine>.txt : Résultat du scan de ports et services via Nmap.
 
-État des conteneurs Docker  
+     dirb_found_<domaine>.txt : Pages découvertes via brute force, y compris les interfaces de connexion.
+
+     result_recon_<domaine>.txt : Résumé des résultats de la phase de reconnaissance.
+
+     rapport_sqlmc_<domaine>.txt : Liste des URLs vulnérables/non vulnérables à l’injection SQL.
+
+     xss_result.txt : Résultats des tests XSS et redirections malveillantes.
+
+📁 reports/ – Rapports consolidés
+    rapport_SQL.txt : Fusion des résultats SQLMC et SQLMap (bases, tables, dumps).
+
+    rapport_<timestamp>.txt : Rapport horodaté généré à la fin de l'exécution.
+
+    rapport_complet.html : Rapport HTML final structuré avec :
+
+        Introduction et périmètre
+
+        Outils utilisés
+
+        Vulnérabilités détectées (par catégorie)
+
+        Gravité des failles (CVSS) et impact
+
+        Recommandations techniques pour la remédiation
+
+        Détails techniques bruts pour audit approfondi
+
+ 
 
 
 
