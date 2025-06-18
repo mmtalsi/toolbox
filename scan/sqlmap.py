@@ -184,8 +184,28 @@ def sqlmap(url):
     choice = input("\n👉 Choisissez une base (ou 'a' pour tout dumper) : ").strip().lower()
 
     if choice == "a":
-        print("❌ Fusion de rapport non supportée en mode 'toutes les bases'")
+        os.makedirs("results/table", exist_ok=True)
+        for selected_db in databases:
+            print(f"\n🔍 Traitement de la base : {selected_db}")
+            with open("results/database/database.txt", "a", encoding="utf-8") as f:
+                f.write(f"\nBase sélectionnée : {selected_db}\n")
+
+            tables = run_sqlmap_tables(url, selected_db)
+            if not tables:
+                print(f"❌ Aucune table trouvée dans '{selected_db}'")
+                continue
+
+            table_file_path = f"results/table/table_{selected_db}.txt"
+            with open(table_file_path, "a", encoding="utf-8") as f:
+                f.write("\nTable sélectionnée : toutes les tables\n")
+
+            for tbl in tables:
+                run_sqlmap_columns(url, selected_db, tbl)
+                run_sqlmap_dump_table(url, selected_db, tbl)
+
+            fusionner_rapport_complet(domain, selected_db)
         return
+
     elif choice.isdigit() and int(choice) < len(databases):
         selected_db = databases[int(choice)]
 
@@ -203,6 +223,7 @@ def sqlmap(url):
         print("[a] Dumper toutes les tables")
 
         tbl_choice = input("\n👉 Choisissez une table (ou 'a' pour tout dumper) : ").strip().lower()
+        os.makedirs("results/table", exist_ok=True)
         table_file_path = f"results/table/table_{selected_db}.txt"
         with open(table_file_path, "a", encoding="utf-8") as f:
             if tbl_choice == "a":
@@ -223,7 +244,6 @@ def sqlmap(url):
         else:
             print("❌ Choix invalide pour les tables.")
 
-        # ✅ Fusion du rapport final
         fusionner_rapport_complet(domain, selected_db)
     else:
         print("❌ Choix invalide pour la base.")

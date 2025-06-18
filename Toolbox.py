@@ -35,22 +35,20 @@ from Broken_Auth import JWTScanner
 import re
 from urllib.parse import urlparse
 
+
 def nettoyer_dossier(dossier: str):
     """
-    Supprime tous les fichiers (pas les sous-dossiers)
-    dans le répertoire donné.
+    Supprime tous les fichiers dans le répertoire donné, y compris ceux des sous-dossiers.
+    Les dossiers eux-mêmes ne sont pas supprimés.
     """
-    pattern = os.path.join(dossier, '*')
-    fichiers = glob.glob(pattern)
-    for chemin in fichiers:
-        if os.path.isdir(chemin):
-            print(f"[-] Ignoré (dossier) : {chemin}")
-            continue
-        try:
-            os.remove(chemin)
-            print(f"[+] Fichier supprimé : {chemin}")
-        except Exception as e:
-            print(f"[!] Erreur lors de la suppression de {chemin} : {e}")
+    for racine, _, fichiers in os.walk(dossier):
+        for fichier in fichiers:
+            chemin_fichier = os.path.join(racine, fichier)
+            try:
+                os.remove(chemin_fichier)
+                print(f"[+] Fichier supprimé : {chemin_fichier}")
+            except Exception as e:
+                print(f"[!] Erreur lors de la suppression de {chemin_fichier} : {e}")
 
 def url_valide(url: str) -> bool:
     """
