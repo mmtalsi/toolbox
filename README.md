@@ -25,9 +25,6 @@ Module	Description
 🖼️ Aperçu
 Menu interactif principal
 
-mathematica
-Copier
-Modifier  
 [1] - Scan de vulnérabilité  
 [2] - Page d'authentification et redirection  
 [3] - Scan et Injection XSS  
@@ -50,9 +47,7 @@ cd toolbox
 Assurez-vous que Docker est installé si vous souhaitez utiliser les démos.
 
 🛠️ Utilisation
-bash
-Copier
-Modifier
+
 python Toolbox.py  
 Entrez une URL sous la forme : http://site.com/ (le slash final est obligatoire).  
 
