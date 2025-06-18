@@ -51,6 +51,26 @@ Assurez-vous que Docker est installé si vous souhaitez utiliser les démos.
 python Toolbox.py  
 Entrez une URL sous la forme : http://site.com/ (le slash final est obligatoire).  
 
+🛠️ Outils Utilisés
+La Toolbox repose sur une combinaison d’outils open-source reconnus dans le domaine du pentest. Chacun est intégré pour une tâche spécifique, automatisée depuis l’interface principale.
+
+| Outil                       | Rôle / Fonction principale                                     |
+| --------------------------- | -------------------------------------------------------------- |
+| **SQLMC**                   | Scan massif d'injections SQL (détection rapide)                |
+| **SQLMap**                  | Exploitation avancée des injections SQL : dump, enum BDD       |
+| **ParamSpider**             | Collecte des paramètres GET/POST pour XSS/SQLi                 |
+| **DIRB**                    | Brute force de répertoires et pages cachées                    |
+| **Nikto**                   | Scan des failles serveur Web : scripts, headers, etc.          |
+| **Nmap**                    | Analyse réseau : ports, services, versions                     |
+| **Subfinder**               | Énumération passive de sous-domaines                           |
+| **WebTech**                 | Détection des technologies web utilisées (CMS, serveurs)       |
+| **GeoIP**                   | Géolocalisation d'adresses IP                                  |
+| **Whois**                   | Informations d’enregistrement DNS/domaines                     |
+| **Nuclei**                  | Scan de CVE connues via templates YAML                         |
+| **Selenium + Chromedriver** | Tests XSS via navigateur sans interface (headless)             |
+| **Docker**                  | Environnements de test pour CVE (machines vulnérables locales) |
+
+
 📊 Interprétation des Résultats  
 La Toolbox génère une série de fichiers lors des analyses, stockés dans une structure claire pour faciliter l’analyse post-exécution :  
 
