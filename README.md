@@ -54,7 +54,7 @@ Entrez une URL sous la forme : http://site.com/ (le slash final est obligatoire)
 📊 Interprétation des Résultats
 La Toolbox génère une série de fichiers lors des analyses, stockés dans une structure claire pour faciliter l’analyse post-exécution :
 
-📁 results/ – Fichiers bruts par module
+📁 results/ – Fichiers bruts par module   
 Contient les sorties textuelles générées par chaque outil :
 
      nikto_<domaine>.txt : Scan des vulnérabilités HTTP (scripts, en-têtes, versions obsolètes).
@@ -69,26 +69,24 @@ Contient les sorties textuelles générées par chaque outil :
 
      xss_result.txt : Résultats des tests XSS et redirections malveillantes.
 
-📁 reports/ – Rapports consolidés
+📁 reports/ – Rapports consolidés  
     rapport_SQL.txt : Fusion des résultats SQLMC et SQLMap (bases, tables, dumps).
 
     rapport_<timestamp>.txt : Rapport horodaté généré à la fin de l'exécution.
 
     rapport_complet.html : Rapport HTML final structuré avec :
 
-        Introduction et périmètre
+           Introduction et périmètre
 
-        Outils utilisés
+           Outils utilisés
 
-        Vulnérabilités détectées (par catégorie)
+           Vulnérabilités détectées (par catégorie)
 
-        Gravité des failles (CVSS) et impact
+           Gravité des failles (CVSS) et impact
 
-        Recommandations techniques pour la remédiation
+           Recommandations techniques pour la remédiation
 
-        Détails techniques bruts pour audit approfondi
-
- 
+           Détails techniques bruts pour audit approfondi
 
 
 
