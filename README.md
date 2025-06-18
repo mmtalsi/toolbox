@@ -73,7 +73,7 @@ Toute utilisation non autorisée peut être considérée comme illégale et enga
 L’équipe de développement ne pourra en aucun cas être tenue responsable de l’utilisation abusive ou malveillante de ce programme.  
 Veuillez toujours respecter les bonnes pratiques en cybersécurité et les lois en vigueur dans votre pays.  
 
-🙋‍♂️ Auteurs
-Mehdi MTALSI – Développeur
-Emile RODIN – Développeur
-Manel Negrouche – Développeur
+🙋‍♂️ Auteurs  
+Mehdi MTALSI – Développeur  
+Emile RODIN – Développeur  
+Manel Negrouche – Développeur  
