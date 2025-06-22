@@ -5,7 +5,17 @@ Scans, détection de vulnérabilités, exploits CVE, génération de rapports, e
 
 📁 Structure du projet
 
-![image](https://github.com/user-attachments/assets/a719faaf-6f97-4e7d-95e0-a3036a280ccf)
+toolbox/  
+├── password/              → Analyse de sécurité des mots de passe  
+├── scan/                  → Modules de scan (Nikto, DIRB, XSS, SQLMap)  
+├── demonstration/         → Scripts d’exploitation des CVE  
+├── results/               → Résultats des analyses  
+├── reports/               → Rapports générés  
+├── Broken_Auth/           → Tests d’authentification JWT  
+├── Toolbox.py             → Script principal  
+├── rapport_complet.py     → Générateur de rapport  
+└── install_kali_tools.sh  → Script d’installation des outils Kali Linux  
+
 
 
 🚀 Fonctionnalités  
