@@ -1,6 +1,6 @@
 # 🛡️ Web Server Audit Toolbox  
 
-Outil d’audit automatisé de serveurs web basé sur le Top 10 OWASP, incluant l’exploitation d’attaques.
+Outil d’audit automatisé de serveurs web basé sur le Top 10 OWASP, incluant l’exploitation d’attaques.  
 Scans, détection de vulnérabilités, exploits CVE, **exploitation d'attaques**, génération de rapports, et démonstrations Docker.  
 
 
