@@ -24,7 +24,7 @@ Module	Description
 🔍 Scan de vulnérabilités	Nikto, reconnaissance domaine, ports ouverts, headers HTTP  
 🔐 Page d’authentification	Détection de pages login, test de redirection (DIRB)  
 💉 Scan XSS	ParamSpider + script maison pour XSS + redirections  
-🧠 Scan SQLMC	SQLMap automatisé avec détection et exploitation de vulnérabilité SQL
+🧠 Scan SQLMC	SQLMap automatisé avec détection et exploitation de vulnérabilité SQL  
 🧱 CVE-2021-41773	Détection et exploitation dans Apache  
 🧱 CVE-2024-38473	Détection et déploiement via Docker  
 📦 Démo Docker	Lancement de conteneurs vulnérables pour démonstration  
