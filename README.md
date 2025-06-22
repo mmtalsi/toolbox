@@ -13,7 +13,7 @@ toolbox/
 ├── reports/               → Rapports générés  
 ├── Broken_Auth/           → Tests d’authentification JWT  
 ├── Toolbox.py             → Script principal  
-├── rapport_complet.py     → Générateur de rapport complet (fusion des résultats, export HTML/PDF)
+├── rapport_complet.py     → Générateur de rapport complet (fusion des résultats, export HTML/PDF)  
 └── install_kali_tools.sh  → Script d’installation des outils Kali Linux  
 
 
