@@ -7,7 +7,7 @@ Scans, détection de vulnérabilités, exploits CVE, génération de rapports, e
 
 toolbox/  
 ├── password/              → Analyse de sécurité des mots de passe  
-├── scan/                  → Modules de scan (Nikto, DIRB, XSS, SQLMap)  
+├── scan/                  → Modules de scan et d'exploitation d'attaque (Nikto, DIRB, XSS, SQLMap)  
 ├── demonstration/         → Scripts d’exploitation des CVE  
 ├── results/               → Résultats des analyses  
 ├── reports/               → Rapports générés  
